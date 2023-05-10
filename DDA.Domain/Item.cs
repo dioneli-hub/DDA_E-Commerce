@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DDA.DataAccess.Entities
+namespace DDA.Domain
 {
-    internal class Item
+     public class Item
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
@@ -15,6 +15,6 @@ namespace DDA.DataAccess.Entities
         public string Image { get; set; }
         public decimal Price { get; set; }
         public int Quantity { get; set; }
-        
+
     }
 }
