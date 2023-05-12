@@ -7,7 +7,7 @@
 namespace DDA.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -107,10 +107,10 @@ namespace DDA.DataAccess.Migrations
                 columns: new[] { "Id", "CategoryId", "Description", "Image", "Name", "Price", "Quantity" },
                 values: new object[,]
                 {
-                    { 1, 1, "Air Pods - in-ear wireless headphones", "/Images/Electronic/Electronics1.png", "test1", 100m, 120 },
-                    { 2, 1, "Air Pods - in-ear wireless headphones", "/Images/Electronic/Electronics1.png", "test2", 100m, 120 },
-                    { 3, 2, "Air Pods - in-ear wireless headphones", "/Images/Electronic/Electronics1.png", "test3", 100m, 120 },
-                    { 4, 2, "Air Pods - in-ear wireless headphones", "/Images/Electronic/Electronics1.png", "test4", 100m, 120 }
+                    { 1, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test1", 100m, 120 },
+                    { 2, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test2", 100m, 120 },
+                    { 3, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test3", 100m, 120 },
+                    { 4, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test4", 100m, 120 }
                 });
 
             migrationBuilder.InsertData(

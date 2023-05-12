@@ -16,7 +16,7 @@ namespace DDA.BusinessLogic.Services.ItemService
         {
             try
             {
-                var items = await _httpClient.GetFromJsonAsync<IEnumerable<ItemModel>>("api/product");
+                var items = await _httpClient.GetFromJsonAsync<IEnumerable<ItemModel>>("api/item");
                 return items;
             }
             catch (Exception)

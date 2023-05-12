@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDA.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230511173737_Initial")]
+    [Migration("20230512091123_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -142,7 +142,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test1",
                             Price = 100m,
                             Quantity = 120
@@ -152,7 +152,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test2",
                             Price = 100m,
                             Quantity = 120
@@ -162,7 +162,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 3,
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test3",
                             Price = 100m,
                             Quantity = 120
@@ -172,7 +172,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 4,
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test4",
                             Price = 100m,
                             Quantity = 120

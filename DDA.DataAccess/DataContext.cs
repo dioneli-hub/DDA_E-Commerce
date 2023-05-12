@@ -23,7 +23,7 @@ namespace DDA.DataAccess
                 Id = 1,
                 Name = "test1",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 1
@@ -34,7 +34,7 @@ namespace DDA.DataAccess
                 Id = 2,
                 Name = "test2",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 1
@@ -46,7 +46,7 @@ namespace DDA.DataAccess
                 Id = 3,
                 Name = "test3",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 2
@@ -57,7 +57,7 @@ namespace DDA.DataAccess
                 Id = 4,
                 Name = "test4",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 2
