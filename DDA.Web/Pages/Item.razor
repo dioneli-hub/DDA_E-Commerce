@@ -14,8 +14,8 @@ else
 
     @if (itemCount > 0)
     {
-        @*const int itemsPerRow = 4;
-        var itemRowList = new List<ItemModel>();
+        
+        @*var itemRowList = new List<ItemModel>();
 
         @for (int i = 0; i < itemCount; i++)
         {
@@ -24,25 +24,15 @@ else
             .Take(itemsPerRow)
             .ToList();*@
 
-        var itemsByCategory = from item in Items
-                              group item by item.CategoryId into itemsByCatGroup
-                              orderby itemsByCatGroup.Key
-                              select itemsByCatGroup;
-
-            
-            @foreach(var itemGroup in itemsByCategory)
+        @foreach (var itemGroup in GetItemsByCategory())
             {
-                <h4>@itemGroup
-                    .FirstOrDefault(g=>g.CategoryId == itemGroup.Key)
-                    .CategoryName</h4>
+                <h4>@GetCategoryName(itemGroup)</h4>
 
                 <div class="row mt-3">
-                    <DisplayItems Items="@itemGroup"></DisplayItems>
+                    <DisplayItems Items="@itemGroup.Take(4)"></DisplayItems>
                 </div>
                 <hr class="mb-3"/>
             }
-            
-            
         //}
     }
 }
@@ -54,5 +44,21 @@ else
     protected override async Task OnInitializedAsync()
     {
         Items = await ItemService.GetItems();
+    }
+
+    protected IOrderedEnumerable<IGrouping<int, ItemModel>> GetItemsByCategory()
+    {
+        return from item in Items
+               group item by item.CategoryId into itemsByCatGroup
+               orderby itemsByCatGroup.Key
+               select itemsByCatGroup;
+
+    }
+
+    protected string GetCategoryName(IGrouping<int, ItemModel> itemGroup)
+    {
+        return itemGroup
+                .FirstOrDefault(g => g.CategoryId == itemGroup.Key)
+                .CategoryName;
     }
 }
