@@ -25,21 +25,7 @@ else
             .ToList();
 
             <div class="row mt-3">
-                @foreach (var item in itemRowList)
-                {
-                    <div class="col-md-3 mb-2">
-                        <a href="#">
-                            <div class="card">
-                                <img class="img-thumbnail" src="@item.Image">
-                                <h5 class="card-title mb-3">
-                                    <p class="card-text">
-                                        <b>@item.Price.ToString("C")</b>
-                                    </p>
-                                </h5>
-                            </div>
-                        </a>
-                    </div>
-                }
+                <DisplayItems Items="@itemRowList"></DisplayItems>
             </div>
         }
     }
