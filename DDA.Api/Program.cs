@@ -2,6 +2,7 @@ using DDA.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using DDA.BusinessLogic;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<DataContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DDAConnection"))
 );
-
+//Microsoft.NET.Sdk.Web
 //BLL dependencies
 builder.Services.AddBusinessLogicDependencies();
 
@@ -26,6 +27,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(policy =>
+policy.WithOrigins("http://localhost:7207", "https://localhost:7207")
+.AllowAnyMethod()
+.WithHeaders(HeaderNames.ContentType)
+);
 
 app.UseHttpsRedirection();
 

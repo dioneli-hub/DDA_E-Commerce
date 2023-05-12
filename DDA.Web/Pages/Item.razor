@@ -1,0 +1,56 @@
+﻿@page "/"
+@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.ItemService;
+
+@if (Items == null)
+{
+    <h3>Loading products...</h3>
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+
+    var itemCount = Items.Count();
+
+    @if (itemCount > 0)
+    {
+        const int itemsPerRow = 4;
+        var itemRowList = new List<ItemModel>();
+
+        @for (int i = 0; i < itemCount; i++)
+        {
+            itemRowList = Items
+            .Skip(i * itemsPerRow)
+            .Take(itemsPerRow)
+            .ToList();
+
+            <div class="row mt-3">
+                @foreach (var item in itemRowList)
+                {
+                    <div class="col-md-3 mb-2">
+                        <a href="#">
+                            <div class="card">
+                                <img class="img-thumbnail" src="@item.Image">
+                                <h5 class="card-title mb-3">
+                                    <p class="card-text">
+                                        <b>@item.Price.ToString("C")</b>
+                                    </p>
+                                </h5>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    }
+}
+
+@code {
+    [Inject]
+    public IItemService ItemService { get; set; }
+    public IEnumerable<ItemModel> Items { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await ItemService.GetItems();
+    }
+}

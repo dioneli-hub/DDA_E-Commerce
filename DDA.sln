@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDA.Domain", "DDA.Domain\DD
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDA.ApiModels", "DDA.ApiModels\DDA.ApiModels.csproj", "{CB32D71E-CBA6-4907-B559-F003D650EDA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDA.BusinessLogic", "DDA.BusinessLogic\DDA.BusinessLogic.csproj", "{46F3729D-7B8C-46E4-B75F-B96C6847ACD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DDA.BusinessLogic", "DDA.BusinessLogic\DDA.BusinessLogic.csproj", "{46F3729D-7B8C-46E4-B75F-B96C6847ACD6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
