@@ -109,8 +109,11 @@ namespace DDA.DataAccess.Migrations
                 {
                     { 1, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test1", 100m, 120 },
                     { 2, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test2", 100m, 120 },
-                    { 3, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test3", 100m, 120 },
-                    { 4, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test4", 100m, 120 }
+                    { 3, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test6", 500m, 120 },
+                    { 4, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test5", 900m, 120 },
+                    { 5, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test7", 900m, 120 },
+                    { 6, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test3", 100m, 120 },
+                    { 7, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test4", 100m, 120 }
                 });
 
             migrationBuilder.InsertData(

@@ -157,6 +157,36 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 1,
+                            Description = "Air Pods - in-ear wireless headphones",
+                            Image = "/images/cat.jpg",
+                            Name = "test6",
+                            Price = 500m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Description = "Air Pods - in-ear wireless headphones",
+                            Image = "/images/cat.jpg",
+                            Name = "test5",
+                            Price = 900m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Description = "Air Pods - in-ear wireless headphones",
+                            Image = "/images/cat.jpg",
+                            Name = "test7",
+                            Price = 900m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 6,
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
@@ -166,7 +196,7 @@ namespace DDA.DataAccess.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 7,
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
