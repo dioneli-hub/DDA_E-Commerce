@@ -1,15 +1,12 @@
 ﻿using DDA.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DDA.ApiModels;
 
 namespace DDA.BusinessLogic.Repositories.UserRepository
 {
     public interface IUserRepository
     {
         Task<User> GetUser(int userId);
+        Task<User> RegisterUser(RegisterUserModel registerUserModel);
 
     }
 }

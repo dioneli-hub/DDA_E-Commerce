@@ -1,4 +1,6 @@
-﻿using DDA.DataAccess;
+﻿using DDA.ApiModels;
+using DDA.BusinessLogic.AuthManagers;
+using DDA.DataAccess;
 using DDA.Domain;
 using System;
 using System.Collections.Generic;
@@ -22,5 +24,31 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
             return user;
         }
 
+        public async Task<User> RegisterUser(RegisterUserModel registerUserModel)
+        {
+            if (await UserAlreadyRegistered(registerUserModel.Email) == false)
+            {
+                var hashModel = HashManager.Generate(registerUserModel.Password);
+
+                var user = new User{
+                    Name = registerUserModel.Name,
+                    Email = registerUserModel.Email,
+                    PasswordHash = Convert.ToBase64String(hashModel.Hash),
+                    SaltHash = Convert.ToBase64String(hashModel.Salt),
+                };
+
+                if (user != null)
+                {
+                    var result = await _dataContext.Users.AddAsync(user);
+                    await _dataContext.SaveChangesAsync();
+                    return result.Entity;
+                }
+            }
+
+            return null;
+        }
+
+        //private UserAlreadyRegistered
     }
 }
+
