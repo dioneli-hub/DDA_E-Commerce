@@ -23,7 +23,7 @@ namespace DDA.DataAccess
                 Id = 1,
                 Name = "test1",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 1
@@ -34,19 +34,53 @@ namespace DDA.DataAccess
                 Id = 2,
                 Name = "test2",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 1
             });
 
-            //Shoes Category
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 3,
+                Name = "test6",
+                Description = "Air Pods - in-ear wireless headphones",
+                Image = "/images/cat.jpg",
+                Price = 500,
+                Quantity = 120,
+                CategoryId = 1
+            });
+
+            modelBuilder.Entity<Item>().HasData(new Item
+            {
+                Id = 4,
+                Name = "test5",
+                Description = "Air Pods - in-ear wireless headphones",
+                Image = "/images/cat.jpg",
+                Price = 900,
+                Quantity = 120,
+                CategoryId = 1
+            });
+
+            modelBuilder.Entity<Item>().HasData(new Item
+            {
+                Id = 5,
+                Name = "test7",
+                Description = "Air Pods - in-ear wireless headphones",
+                Image = "/images/cat.jpg",
+                Price = 900,
+                Quantity = 120,
+                CategoryId = 1
+            });
+
+
+            //Shoes Category
+            modelBuilder.Entity<Item>().HasData(new Item
+            {
+                Id = 6,
                 Name = "test3",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 2
@@ -54,10 +88,10 @@ namespace DDA.DataAccess
 
             modelBuilder.Entity<Item>().HasData(new Item
             {
-                Id = 4,
+                Id = 7,
                 Name = "test4",
                 Description = "Air Pods - in-ear wireless headphones",
-                Image = "/Images/Electronic/Electronics1.png",
+                Image = "/images/cat.jpg",
                 Price = 100,
                 Quantity = 120,
                 CategoryId = 2

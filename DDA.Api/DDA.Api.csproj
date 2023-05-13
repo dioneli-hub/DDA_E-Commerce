@@ -15,7 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DDA.ApiModels\DDA.ApiModels.csproj" />
+    <ProjectReference Include="..\DDA.BusinessLogic\DDA.BusinessLogic.csproj" />
     <ProjectReference Include="..\DDA.DataAccess\DDA.DataAccess.csproj" />
+    <ProjectReference Include="..\DDA.Web\DDA.Web.csproj" />
   </ItemGroup>
 
 </Project>

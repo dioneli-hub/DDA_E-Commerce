@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDA.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230511173737_Initial")]
+    [Migration("20230513062909_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -142,7 +142,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test1",
                             Price = 100m,
                             Quantity = 120
@@ -152,7 +152,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 2,
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test2",
                             Price = 100m,
                             Quantity = 120
@@ -160,19 +160,49 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 3,
+                            CategoryId = 1,
+                            Description = "Air Pods - in-ear wireless headphones",
+                            Image = "/images/cat.jpg",
+                            Name = "test6",
+                            Price = 500m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 1,
+                            Description = "Air Pods - in-ear wireless headphones",
+                            Image = "/images/cat.jpg",
+                            Name = "test5",
+                            Price = 900m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 1,
+                            Description = "Air Pods - in-ear wireless headphones",
+                            Image = "/images/cat.jpg",
+                            Name = "test7",
+                            Price = 900m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 6,
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test3",
                             Price = 100m,
                             Quantity = 120
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 7,
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
-                            Image = "/Images/Electronic/Electronics1.png",
+                            Image = "/images/cat.jpg",
                             Name = "test4",
                             Price = 100m,
                             Quantity = 120

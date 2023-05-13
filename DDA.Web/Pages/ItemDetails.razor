@@ -1,0 +1,49 @@
+﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.ItemService;
+@page "/ItemDetails/{Id:int}"
+
+@if (Item is null && Error is null)
+{
+    <h3>Loading...</h3>
+}
+else if (Error is not null)
+{
+    <ErrorMessage Error="@Error"></ErrorMessage>
+} 
+else
+{
+    <h3 class=mb-5>Item Details</h3>
+    <div class="col-md-6 mb-4">
+        <img class="img-fluid" src="@Item.Image">
+    </div>
+    <div class="col-md-6">
+        <h3>@Item.Name</h3>
+        <p class="mb-4">@Item.Description</p>
+        <p class="mb-4">
+            <b>
+                @Item.Price.ToString("C")&nbsp;(@Item.Quantity items in stock)
+            </b>
+        </p>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    [Inject]
+    public IItemService ItemService { get; set; }
+    public ItemModel Item { get; set; }
+    public string Error { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Item = await ItemService.GetItem(Id);
+        }
+        catch (Exception ex)
+        {
+            ExceptionMessage = ex.Message;
+        }
+    }
+}

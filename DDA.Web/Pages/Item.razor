@@ -1,0 +1,64 @@
+﻿@page "/"
+@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.ItemService;
+
+@if (Items == null)
+{
+    <h3>Loading products...</h3>
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+
+    var itemCount = Items.Count();
+
+    @if (itemCount > 0)
+    {
+        
+        @*var itemRowList = new List<ItemModel>();
+
+        @for (int i = 0; i < itemCount; i++)
+        {
+            itemRowList = Items
+            .Skip(i * itemsPerRow)
+            .Take(itemsPerRow)
+            .ToList();*@
+
+        @foreach (var itemGroup in GetItemsByCategory())
+            {
+                <h4>@GetCategoryName(itemGroup)</h4>
+
+                <div class="row mt-3 items-container">
+                    <DisplayItems Items="@itemGroup"></DisplayItems>
+                </div>
+                <hr class="mb-3"/>
+            }
+        //}
+    }
+}
+
+@code {
+    [Inject]
+    public IItemService ItemService { get; set; }
+    public IEnumerable<ItemModel> Items { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        Items = await ItemService.GetItems();
+    }
+
+    protected IOrderedEnumerable<IGrouping<int, ItemModel>> GetItemsByCategory()
+    {
+        return from item in Items
+               group item by item.CategoryId into itemsByCatGroup
+               orderby itemsByCatGroup.Key
+               select itemsByCatGroup;
+
+    }
+
+    protected string GetCategoryName(IGrouping<int, ItemModel> itemGroup)
+    {
+        return itemGroup
+                .FirstOrDefault(g => g.CategoryId == itemGroup.Key)
+                .CategoryName;
+    }
+}
