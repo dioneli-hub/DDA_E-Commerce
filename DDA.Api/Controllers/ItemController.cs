@@ -44,5 +44,33 @@ namespace DDA.Api.Controllers
                     "Can not retrieve data from database.");
             }
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<ItemModel>> GetItem(int id)
+        {
+            try
+            {
+                var item = await _itemRepository.GetItem(id);
+                
+
+                if (item == null)
+                {
+                    return BadRequest();
+                }
+
+                else
+                {
+                    var itemCategory = await _itemRepository.GetCategory(item.CategoryId);
+                    var itemModel = item.ConvertToModel(itemCategory);
+                    return Ok(itemModel);
+                }
+            }
+
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Can not retrieve data from database.");
+            }
+        }
     }
 }

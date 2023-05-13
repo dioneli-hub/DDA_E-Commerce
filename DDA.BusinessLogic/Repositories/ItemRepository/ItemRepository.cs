@@ -24,14 +24,16 @@ namespace DDA.BusinessLogic.Repositories.ItemRepository
             return categories;
         }
 
-        public Task<Category> GetCategory(int id)
+        public async Task<Category> GetCategory(int id)
         {
-            throw new NotImplementedException();
+            var category = await _dataContext.Categories.SingleOrDefaultAsync(c => c.Id == id);
+            return category;
         }
 
         public async Task<Item> GetItem(int id)
         {
-            throw new NotImplementedException();
+            var item = await _dataContext.Items.FindAsync(id);
+            return item;
         }
 
         public async Task<IEnumerable<Item>> GetItems()
