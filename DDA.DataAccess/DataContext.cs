@@ -101,12 +101,20 @@ namespace DDA.DataAccess
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 1,
-                Name = "Dastan"
+                Name = "Dastan",
+                PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
+                SaltHash = "osWQVLjdW582FSVB6aMwDg==",
+                Email = "string"
+
+
             });
             modelBuilder.Entity<User>().HasData(new User
             {
                 Id = 2,
-                Name = "Diana"
+                Name = "Diana",
+                PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
+                SaltHash = "/ZcP5+73VeaG0k1WH6eddw==",
+                Email = "string1"
             });
 
             //Shopping Cart

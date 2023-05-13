@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DDA.Domain
+namespace DDA.ApiModels
 {
-    public class User
+    public class UserModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public string SaltHash { get; set; }
     }
 }
