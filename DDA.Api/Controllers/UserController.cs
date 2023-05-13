@@ -1,4 +1,5 @@
-﻿using DDA.ApiModels;
+﻿using DDA.Api.Extensions;
+using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using Microsoft.AspNetCore.Authorization;

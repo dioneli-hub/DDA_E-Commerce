@@ -36,5 +36,15 @@ namespace DDA.Api.Extensions
                 CategoryName = category.Name,
             }; 
         }
+
+        public static UserModel ConvertToModel(this User user)
+        {
+            return new UserModel
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Email = user.Email
+            };
+        }
     }
 }

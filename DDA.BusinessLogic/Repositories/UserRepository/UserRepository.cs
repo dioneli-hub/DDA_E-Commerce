@@ -2,6 +2,7 @@
 using DDA.BusinessLogic.AuthManagers;
 using DDA.DataAccess;
 using DDA.Domain;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +49,11 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
             return null;
         }
 
-        //private UserAlreadyRegistered
+        private async Task<bool> UserAlreadyRegistered(string email)
+        {
+            return await _dataContext.Users.AnyAsync
+                (x => x.Email == email);
+        }
     }
 }
 
