@@ -214,7 +214,19 @@ namespace DDA.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SaltHash")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -226,12 +238,18 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Dastan"
+                            Email = "string",
+                            Name = "Dastan",
+                            PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
+                            SaltHash = "osWQVLjdW582FSVB6aMwDg=="
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Diana"
+                            Email = "string1",
+                            Name = "Diana",
+                            PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
+                            SaltHash = "/ZcP5+73VeaG0k1WH6eddw=="
                         });
                 });
 #pragma warning restore 612, 618

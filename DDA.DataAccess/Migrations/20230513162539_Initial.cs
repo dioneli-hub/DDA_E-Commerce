@@ -77,7 +77,10 @@ namespace DDA.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SaltHash = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -118,11 +121,11 @@ namespace DDA.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Email", "Name", "PasswordHash", "SaltHash" },
                 values: new object[,]
                 {
-                    { 1, "Dastan" },
-                    { 2, "Diana" }
+                    { 1, "string", "Dastan", "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=", "osWQVLjdW582FSVB6aMwDg==" },
+                    { 2, "string1", "Diana", "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=", "/ZcP5+73VeaG0k1WH6eddw==" }
                 });
         }
 
