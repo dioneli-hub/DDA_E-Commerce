@@ -29,21 +29,21 @@ namespace DDA.Api.Controllers
             {
                 var cartItems = await _cartRepository.GetUsersCartItems(userId);
 
-                if (cartItems is null)
+                if (cartItems == null)
                 {
                     return NoContent();
                 }
 
                 var items = await _itemRepository.GetItems();
 
-                if (items is null)
+                if (items == null)
                 {
                     throw new Exception("There are no products in the system.");
                 }
 
                 var cartItemsModel = cartItems.ConvertToModel(items);
 
-                return Ok(cartItemsModel);
+                return Ok(cartItemsModel); 
             }
             catch (Exception e)
             {

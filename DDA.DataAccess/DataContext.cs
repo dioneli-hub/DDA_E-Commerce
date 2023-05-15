@@ -29,6 +29,8 @@ namespace DDA.DataAccess
                 CategoryId = 1
             });
 
+           
+
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 2,
@@ -129,6 +131,14 @@ namespace DDA.DataAccess
                 Id = 2,
                 UserId = 2
 
+            });
+
+            modelBuilder.Entity<CartItem>().HasData(new CartItem
+            {
+                Id = 1,
+                CartId = 1,
+                ItemId = 1,
+                Quantity = 1
             });
 
             //Categories

@@ -47,12 +47,13 @@ namespace DDA.Api.Extensions
                 {
                     Id = cartItem.Id,
                     ItemId = cartItem.ItemId,
+                    ItemName = item.Name,
                     ItemDescription = item.Description,
                     ItemImage = item.Image,
                     Price = item.Price,
                     CartId = cartItem.CartId,
                     Quantity = cartItem.Quantity,
-                    Total = item.Price * item.Quantity
+                    Total = item.Price * cartItem.Quantity
                 }).ToList();
         }
 

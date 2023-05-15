@@ -75,14 +75,16 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
         public async Task<IEnumerable<CartItem>> GetUsersCartItems(int userId)
         {
             return await (from cart in _dataContext.Carts
-                join CartItem in _dataContext.CartItems 
-                on cart.Id equals CartItem.CartId
+                join cartItem in _dataContext.CartItems 
+                on cart.Id equals cartItem.CartId
                 where cart.UserId == userId
                 select new CartItem
                 {
-                    Id = CartItem.Id,
-                    Quantity = CartItem.Quantity,
-                    CartId = CartItem.CartId
+                    Id = cartItem.Id,
+                    ItemId = cartItem.ItemId,
+                    Quantity = cartItem.Quantity,
+                    CartId = cartItem.CartId
+
                 }).ToListAsync();
         }
     }
