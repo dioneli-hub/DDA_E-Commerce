@@ -36,7 +36,7 @@ namespace DDA.BusinessLogic.Services.ItemService
 
             catch (Exception)
             {
-
+                //Log later
                 throw;
             }
         }
