@@ -14,7 +14,6 @@ namespace DDA.BusinessLogic
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<IUserContextService, UserContextService>();
 
             return services;
         }

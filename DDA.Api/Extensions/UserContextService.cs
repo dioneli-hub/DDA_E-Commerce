@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DDA.BusinessLogic.UserContext;
 using System.Security.Principal;
 
-namespace DDA.BusinessLogic.UserContext
+namespace DDA.Api.Extensions
 {
     public class UserContextService : IUserContextService
     {
