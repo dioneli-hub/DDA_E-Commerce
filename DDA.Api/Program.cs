@@ -16,7 +16,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DDAConnection"))
 );
 //Microsoft.NET.Sdk.Web
 //BLL dependencies
-builder.Services.AddBusinessLogicDependencies();
+builder.Services.AddApiBusinessLogicDependencies();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

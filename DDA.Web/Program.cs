@@ -7,7 +7,7 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddBusinessLogicDependencies();
+builder.Services.AddWebBusinessLogicDependencies();
 
 await builder.Build().RunAsync();
 
