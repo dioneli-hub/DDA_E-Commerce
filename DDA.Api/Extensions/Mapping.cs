@@ -41,20 +41,36 @@ namespace DDA.Api.Extensions
             IEnumerable<Item> items)
         {
             return (from cartItem in cartItems
-                join item in items
-                    on cartItem.ItemId equals item.Id
-                select new CartItemModel
-                {
-                    Id = cartItem.Id,
-                    ItemId = cartItem.ItemId,
-                    ItemName = item.Name,
-                    ItemDescription = item.Description,
-                    ItemImage = item.Image,
-                    Price = item.Price,
-                    CartId = cartItem.CartId,
-                    Quantity = cartItem.Quantity,
-                    Total = item.Price * cartItem.Quantity
-                }).ToList();
+                    join item in items
+                        on cartItem.ItemId equals item.Id
+                    select new CartItemModel
+                    {
+                        Id = cartItem.Id,
+                        ItemId = cartItem.ItemId,
+                        ItemName = item.Name,
+                        ItemDescription = item.Description,
+                        ItemImage = item.Image,
+                        Price = item.Price,
+                        CartId = cartItem.CartId,
+                        Quantity = cartItem.Quantity,
+                        Total = item.Price * cartItem.Quantity
+                    }).ToList();
+        }
+
+        public static CartItemModel ConvertToModel(this CartItem cartItem, Item item)
+        {
+            return new CartItemModel
+                    {
+                        Id = cartItem.Id,
+                        ItemId = cartItem.ItemId,
+                        ItemName = item.Name,
+                        ItemDescription = item.Description,
+                        ItemImage = item.Image,
+                        Price = item.Price,
+                        CartId = cartItem.CartId,
+                        Quantity = cartItem.Quantity,
+                        Total = item.Price * cartItem.Quantity
+                    };
         }
 
         public static UserModel ConvertToModel(this User user)

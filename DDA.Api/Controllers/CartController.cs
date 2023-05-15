@@ -4,6 +4,7 @@ using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace DDA.Api.Controllers
 {
@@ -43,10 +44,38 @@ namespace DDA.Api.Controllers
 
                 var cartItemsModel = cartItems.ConvertToModel(items);
 
-                return Ok(cartItemsModel); 
+                return Ok(cartItemsModel);
             }
             catch (Exception e)
             {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<CartItemModel>> GetCartItem(int id)
+        {
+            try
+            {
+                var cartItem = await _cartRepository.GetCartItem(id);
+                if(cartItem is null)
+                {
+                    return NotFound();
+                }
+
+                var item = await _itemRepository.GetItem(cartItem.ItemId);
+                if (item is null)
+                {
+                    return NotFound();
+                }
+
+                var cartItemModel = cartItem.ConvertToModel(item);
+
+                return Ok(cartItemModel);
+            }
+            catch (Exception e)
+            {
+
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }

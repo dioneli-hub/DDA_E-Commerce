@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDA.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230515122653_Initial")]
-    partial class Initial
+    [Migration("20230515173037_Second")]
+    partial class Second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,6 +80,13 @@ namespace DDA.DataAccess.Migrations
                             CartId = 1,
                             ItemId = 1,
                             Quantity = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CartId = 2,
+                            ItemId = 2,
+                            Quantity = 2
                         });
                 });
 
@@ -172,7 +179,7 @@ namespace DDA.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
-                            Name = "test6",
+                            Name = "test3",
                             Price = 500m,
                             Quantity = 120
                         },
@@ -182,7 +189,7 @@ namespace DDA.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
-                            Name = "test5",
+                            Name = "test4",
                             Price = 900m,
                             Quantity = 120
                         },
@@ -192,7 +199,7 @@ namespace DDA.DataAccess.Migrations
                             CategoryId = 1,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
-                            Name = "test7",
+                            Name = "test5",
                             Price = 900m,
                             Quantity = 120
                         },
@@ -202,7 +209,7 @@ namespace DDA.DataAccess.Migrations
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
-                            Name = "test3",
+                            Name = "test6",
                             Price = 100m,
                             Quantity = 120
                         },
@@ -212,7 +219,7 @@ namespace DDA.DataAccess.Migrations
                             CategoryId = 2,
                             Description = "Air Pods - in-ear wireless headphones",
                             Image = "/images/cat.jpg",
-                            Name = "test4",
+                            Name = "test7",
                             Price = 100m,
                             Quantity = 120
                         });

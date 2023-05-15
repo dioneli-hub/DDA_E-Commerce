@@ -45,7 +45,7 @@ namespace DDA.DataAccess
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 3,
-                Name = "test6",
+                Name = "test3",
                 Description = "Air Pods - in-ear wireless headphones",
                 Image = "/images/cat.jpg",
                 Price = 500,
@@ -56,7 +56,7 @@ namespace DDA.DataAccess
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 4,
-                Name = "test5",
+                Name = "test4",
                 Description = "Air Pods - in-ear wireless headphones",
                 Image = "/images/cat.jpg",
                 Price = 900,
@@ -67,7 +67,7 @@ namespace DDA.DataAccess
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 5,
-                Name = "test7",
+                Name = "test5",
                 Description = "Air Pods - in-ear wireless headphones",
                 Image = "/images/cat.jpg",
                 Price = 900,
@@ -80,7 +80,7 @@ namespace DDA.DataAccess
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 6,
-                Name = "test3",
+                Name = "test6",
                 Description = "Air Pods - in-ear wireless headphones",
                 Image = "/images/cat.jpg",
                 Price = 100,
@@ -91,7 +91,7 @@ namespace DDA.DataAccess
             modelBuilder.Entity<Item>().HasData(new Item
             {
                 Id = 7,
-                Name = "test4",
+                Name = "test7",
                 Description = "Air Pods - in-ear wireless headphones",
                 Image = "/images/cat.jpg",
                 Price = 100,
@@ -139,6 +139,14 @@ namespace DDA.DataAccess
                 CartId = 1,
                 ItemId = 1,
                 Quantity = 1
+            });
+
+            modelBuilder.Entity<CartItem>().HasData(new CartItem
+            {
+                Id = 2,
+                CartId = 2,
+                ItemId = 2,
+                Quantity = 2
             });
 
             //Categories
