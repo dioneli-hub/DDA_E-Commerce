@@ -1,4 +1,5 @@
 ﻿using DDA.BusinessLogic.Repositories.AuthRepository;
+using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using DDA.BusinessLogic.Services.ItemService;
@@ -14,6 +15,8 @@ namespace DDA.BusinessLogic
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
+
 
             return services;
         }
