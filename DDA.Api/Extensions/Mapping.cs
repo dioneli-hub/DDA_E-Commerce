@@ -82,5 +82,14 @@ namespace DDA.Api.Extensions
                 Email = user.Email
             };
         }
+
+        public static CartModel ConvertToModel(this Cart cart)
+        {
+            return new CartModel
+            {
+                Id = cart.Id,
+                UserId = cart.UserId
+            };
+        }
     }
 }

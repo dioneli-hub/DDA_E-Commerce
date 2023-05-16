@@ -34,11 +34,32 @@ namespace DDA.Api.Controllers
 
                 return Ok(newUserModel);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
+        }
+
+        [HttpGet]
+        [Route("{userId}/GetUserCart")]
+        public async Task<ActionResult<CartModel>> GetUserCart(int userId)
+        {
+            try
+            {
+                var cart = await _userRepository.GetUserCart(userId);
+
+                if (cart is null)
+                {
+                    return NoContent();
+                }
+                var cartModel = cart.ConvertToModel;
+                return Ok(cartModel);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
 

@@ -1,5 +1,7 @@
 ﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.ItemService;
+@using DDA.BusinessLogic.UserContext;
 @page "/ItemDetails/{Id:int}"
 
 @if (Item is null && Error is null)
@@ -27,8 +29,12 @@ else
     </div>
 
     <div>
-        <button class="btn btn-success">
-            <b>Add to Cart</b>
+        <button class="btn btn-success"
+        @onclick = "() => (AddItemToCart_Click(new AddCartItemModel{
+            CartId = UserContextService.GetCurrentUserId(), // hard-coded for now, add cart creation later
+            //UserId = UserContextService.GetCurrentUserId()
+        }))"
+        ><b>Add to Cart</b>
         </button>
     </div>
 }
@@ -39,6 +45,12 @@ else
 
     [Inject]
     public IItemService ItemService { get; set; }
+
+    [Inject]
+    public IUserContextService UserContextService { get; set; }
+
+    [Inject]
+    public ICartService CartService { get; set; }
 
     public ItemModel Item { get; set; }
 
@@ -53,6 +65,19 @@ else
         catch (Exception ex)
         {
             Error = ex.Message;
+        }
+    }
+
+    protected async Task AddItemToCart_Click(AddCartItemModel addCartItemModel)
+    {
+        try
+        {
+            var cartItemModel = await CartService.AddCartItem(addCartItemModel);
+        }
+        catch (Exception)
+        {
+            
+            //log later
         }
     }
 }

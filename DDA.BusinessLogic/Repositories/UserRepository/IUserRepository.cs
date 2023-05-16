@@ -7,6 +7,6 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
     {
         Task<User> GetUser(int userId);
         Task<User> RegisterUser(RegisterUserModel registerUserModel);
-
+        Task<Cart> GetUserCart(int userId);
     }
 }
