@@ -5,6 +5,7 @@ using DDA.BusinessLogic.Repositories.ItemRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DDA.Api.Controllers
 {
@@ -30,14 +31,14 @@ namespace DDA.Api.Controllers
             {
                 var cartItems = await _cartRepository.GetUsersCartItems(userId);
 
-                if (cartItems == null)
+                if (cartItems is null)
                 {
                     return NoContent();
                 }
 
                 var items = await _itemRepository.GetItems();
 
-                if (items == null)
+                if (items is null)
                 {
                     throw new Exception("There are no products in the system.");
                 }
@@ -76,6 +77,35 @@ namespace DDA.Api.Controllers
             catch (Exception e)
             {
 
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<CartItemModel>> AddCartItem([FromBody]AddCartItemModel addCartItemModel)
+        {
+            try
+            {
+                var newCartItem = await _cartRepository.AddCartItem(addCartItemModel);
+
+                if (newCartItem is null)
+                {
+                    return NoContent();
+                }
+
+                var item = await _itemRepository.GetItem(newCartItem.ItemId);
+
+                if (item is null)
+                {
+                    throw new Exception($"Something went wrong, can not retrieve the product (itemId:({addCartItemModel.ItemId})");
+                }
+
+                var newCartItemModel = newCartItem.ConvertToModel(item);
+
+                return CreatedAtAction(nameof(GetCartItem), new { id = newCartItemModel.Id}, newCartItemModel);
+            }
+            catch (Exception e)
+            {
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
