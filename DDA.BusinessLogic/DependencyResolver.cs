@@ -4,6 +4,7 @@ using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using DDA.BusinessLogic.Services.CartService;
 using DDA.BusinessLogic.Services.ItemService;
+using DDA.BusinessLogic.Services.UserService;
 using DDA.BusinessLogic.UserContext;
 using Microsoft.Extensions.DependencyInjection;
 namespace DDA.BusinessLogic
@@ -27,6 +28,7 @@ namespace DDA.BusinessLogic
             //Web
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7207/") });
 

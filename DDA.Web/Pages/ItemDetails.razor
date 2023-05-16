@@ -1,7 +1,7 @@
 ﻿@using DDA.ApiModels;
 @using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.ItemService;
-@using DDA.BusinessLogic.UserContext;
+@using DDA.BusinessLogic.Services.UserService;
 @page "/ItemDetails/{Id:int}"
 
 @if (Item is null && Error is null)
@@ -31,8 +31,9 @@ else
     <div>
         <button class="btn btn-success"
         @onclick = "() => (AddItemToCart_Click(new AddCartItemModel{
-            CartId = UserContextService.GetCurrentUserId(), // hard-coded for now, add cart creation later
-            //UserId = UserContextService.GetCurrentUserId()
+            CartId = CartService.GetUserCart(UserService.GetCurrentUserId()).Id, 
+            ItemId = Item.Id,
+            Quantity = 1
         }))"
         ><b>Add to Cart</b>
         </button>
@@ -47,7 +48,7 @@ else
     public IItemService ItemService { get; set; }
 
     [Inject]
-    public IUserContextService UserContextService { get; set; }
+    public IUserService UserService { get; set; }
 
     [Inject]
     public ICartService CartService { get; set; }
