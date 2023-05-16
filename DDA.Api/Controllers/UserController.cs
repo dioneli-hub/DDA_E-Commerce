@@ -47,12 +47,19 @@ namespace DDA.Api.Controllers
         {
             try
             {
+                //var user = await _userRepository.GetUser(userId);
+
                 var cart = await _userRepository.GetUserCart(userId);
 
                 if (cart is null)
                 {
                     return NoContent();
-                }
+                } 
+
+                /* add validation (probably, not in this method but somewhere else...)
+                 if cart is null but user exists - create new cart  for user...
+                 */
+
                 var cartModel = cart.ConvertToModel;
                 return Ok(cartModel);
             }

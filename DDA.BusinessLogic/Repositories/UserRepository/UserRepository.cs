@@ -42,14 +42,14 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
                 if (user is not null)
                 {
                     var result = await _dataContext.Users.AddAsync(user);
+                    await _dataContext.SaveChangesAsync();
 
-                    var cart = CreateUserCart(user.Id);
+                    var cart = await CreateUserCart(result.Entity.Id);
 
                     if (cart is not null)
                     {
-                        await _dataContext.SaveChangesAsync();
                         return result.Entity;
-                    }
+                    } 
                 }
             }
 

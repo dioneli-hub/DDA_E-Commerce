@@ -64,5 +64,35 @@ namespace DDA.BusinessLogic.Services.CartService
                 throw;
             }
         }
+
+        public async Task<CartModel> GetUserCart(int userId)
+        {
+            var response = await _httpClient.GetAsync($"api/{userId}/GetUserCart");
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return default(CartModel);
+                    }
+                    return await response.Content.ReadFromJsonAsync<CartModel>();
+                }
+
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception(message);
+                }
+            }
+
+            catch (Exception)
+            {
+                //Log later
+                throw;
+            }
+
+        }
     }
 }
