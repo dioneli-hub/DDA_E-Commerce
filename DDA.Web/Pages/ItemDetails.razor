@@ -53,6 +53,9 @@ else
     [Inject]
     public ICartService CartService { get; set; }
 
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     public ItemModel Item { get; set; }
 
     public string Error { get; set; }
@@ -74,10 +77,10 @@ else
         try
         {
             var cartItemModel = await CartService.AddCartItem(addCartItemModel);
+            NavigationManager.NavigateTo("/Cart");
         }
         catch (Exception)
         {
-            
             //log later
         }
     }

@@ -18,7 +18,7 @@ namespace DDA.BusinessLogic.Services.CartService
         }
         public async Task<CartItemModel> AddCartItem(AddCartItemModel addCartItemModel)
         {
-            var response = await _httpClient.PostAsJsonAsync<AddCartItemModel>("api/Cart", addCartItemModel);
+            var response = await _httpClient.PostAsJsonAsync<AddCartItemModel>("api/Cart/AddCartItem", addCartItemModel);
 
             if(response.IsSuccessStatusCode)
             {
@@ -41,7 +41,7 @@ namespace DDA.BusinessLogic.Services.CartService
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/{userId}/GetUsersCartItems");
+                var response = await _httpClient.GetAsync($"api/Cart/{userId}/GetUsersCartItems");
 
                 if (response.IsSuccessStatusCode) 
                 {

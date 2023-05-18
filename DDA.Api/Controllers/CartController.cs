@@ -53,7 +53,7 @@ namespace DDA.Api.Controllers
             }
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id}/GetCartItem")]
         public async Task<ActionResult<CartItemModel>> GetCartItem(int id)
         {
             try
@@ -81,7 +81,7 @@ namespace DDA.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("AddCartItem")]
         public async Task<ActionResult<CartItemModel>> AddCartItem([FromBody]AddCartItemModel addCartItemModel)
         {
             try

@@ -1,0 +1,68 @@
+﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.CartService;
+@using DDA.BusinessLogic.Services.UserService;
+
+@page "/Cart"
+
+@if(CartItems is null && ErrorMessage is null)
+{
+    <Loading></Loading>
+}
+else if(ErrorMessage is not null)
+{
+    <DisplayErrorMessage ErrorMessage ="@ErrorMessage"></DisplayErrorMessage>
+}
+else
+{
+    <h3 class="mb-5">Shopping Cart</h3>
+    <div class="row-mb-5">
+        <div class="col-md-9">
+            @foreach(var cartItem in CartItems)
+            {
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <img src="@cartItem.ItemImage" width="300" class="img-thumbnail">
+                    </div>
+                    <div class="col-md-8">
+                        <h5>@cartItem.ItemName</h5>
+                        <div class="mb-4">@cartItem.ItemDescription</div>
+                        <span>Price: <b>@cartItem.Price.ToString("C")</b></span>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-3">
+            <h5>Summary</h5>
+            <div class="mt-2">
+                <a href="#" class="btn btn-success">
+                    <span class="oi oi-credit-card"></span>&nbsp; Proceed to checkout
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Inject]
+    public ICartService CartService {get; set;}
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    public IEnumerable<CartItemModel> CartItems { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
+        }
+        catch (Exception)
+        {
+            
+            throw;
+        }
+    }
+
+}

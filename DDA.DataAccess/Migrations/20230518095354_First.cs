@@ -7,7 +7,7 @@
 namespace DDA.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial1 : Migration
+    public partial class First : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
