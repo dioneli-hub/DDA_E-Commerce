@@ -45,5 +45,13 @@ namespace DDA.BusinessLogic.Repositories.ItemRepository
 
             return items;
         }
+
+        public async Task<IEnumerable<Item>> GetItemsByCategory(int categoryId)
+        {
+            var items = await (from item in _dataContext.Items
+                               where item.CategoryId == categoryId
+                               select item).ToListAsync();
+            return items;
+        }
     }
 }

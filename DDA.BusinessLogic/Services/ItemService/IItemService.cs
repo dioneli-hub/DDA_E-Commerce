@@ -7,5 +7,6 @@ namespace DDA.BusinessLogic.Services.ItemService
         Task<IEnumerable<ItemModel>> GetItems();
         Task<ItemModel> GetItem(int id);
         Task<IEnumerable<ItemModel>> GetCategories();
+        Task<IEnumerable<ItemModel>> GetItemsByCategory(int categoryId);
     }
 }

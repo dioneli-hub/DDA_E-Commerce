@@ -1,0 +1,53 @@
+﻿@using DDA.ApiModels;
+@page "/ItemsByCategory/{CategoryId:int}"
+
+@if(Items == null && ErrorMessage == null){
+    <Loading></Loading>
+} 
+else if(ErrorMessage != null) {
+    <DisplayErrorMessage ErrorMessage="ErrorMessage"/>
+}
+else {
+    <h3>(@CategoryName)</h3>
+@if (Items.Count() > 0)
+{
+    <DisplayItems Items="@Items"></DisplayItems>
+}
+}
+
+@code {
+    [Parameter]
+    public int CategoryId { get; set; }
+
+    [Inject]
+    public IItemService ItemService { get; set; }
+
+    public IEnumerable<ItemModel> Items { get; set; }
+
+    public string CategoryName { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        try
+        {
+            Items = await ItemService.GetItemsByCategory(CategoryId);
+
+            if (Items != null && Items.Count() > 0)
+            {
+                var itemModel = Items.FirstOrDefault(i => i.CategoryId == CategoryId);
+                if (itemModel != null)
+                {
+                    CategoryName = itemModel.CategoryName;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+
+}

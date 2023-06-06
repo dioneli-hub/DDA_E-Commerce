@@ -91,5 +91,24 @@ namespace DDA.Api.Controllers
                     "Error retrieving data from the database.");
             }
         }
+
+
+        [HttpGet]
+        [Route("{categoryId}/GetItemsByCategory")]
+        public async Task<ActionResult<IEnumerable<ItemModel>>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var items = await _itemRepository.GetItemsByCategory(categoryId);
+                var categories = await _itemRepository.GetCategories();
+                var itemModels = items.ConvertToModel(categories);
+                return Ok(itemModels);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database.");
+            }
+        }
     }
 }
