@@ -48,9 +48,17 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
             return null;
         }
 
-        public Task<CartItem> UpdateCartItemQuantity(int id, UpdateCartItemQuantityModel updateCartItemQuantityModel)
+        public async Task<CartItem> UpdateCartItemQuantity(int id, UpdateCartItemQuantityModel updateCartItemQuantityModel)
         {
-            throw new NotImplementedException();
+            var cartItem = await this._dataContext.CartItems.FindAsync(id);
+            if (cartItem != null)
+            {
+                cartItem.Quantity = updateCartItemQuantityModel.Quantity;
+                await this._dataContext.SaveChangesAsync();
+                return cartItem;
+            }
+
+            return null;
         }
 
         public async Task<CartItem> RemoveCartItem(int id)

@@ -136,5 +136,26 @@ namespace DDA.Api.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
+
+        [HttpPatch("{id:int}")]
+        public async Task<ActionResult<CartItemModel>> UpdateQuantity(int id, UpdateCartItemQuantityModel updateModel)
+        {
+            try
+            {
+                var cartItem = await this._cartRepository.UpdateCartItemQuantity(id, updateModel);
+                if (cartItem == null)
+                {
+                    return NotFound();
+                }
+
+                var item = await this._itemRepository.GetItem(cartItem.ItemId);
+                var cartItemModel = cartItem.ConvertToModel(item);
+                return Ok(cartItemModel);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
 }
 }

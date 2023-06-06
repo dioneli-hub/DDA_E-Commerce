@@ -29,7 +29,14 @@ else
                     <div class="col-md-8">
                         <h5>@cartItem.ItemName</h5>
                         <div class="mb-4">@cartItem.ItemDescription</div>
-                        <span>Price: <b>@cartItem.Price.ToString("C")</b></span>
+                        <span>
+                            Price: <b>@cartItem.Price.ToString("C")</b>
+                            <input type="number" @bind="@cartItem.Quantity" />
+                            <button class="btn btn-info btn-sm" @onclick="(()=> UpdateCartItemQuantity_Click(cartItem.Id, cartItem.Quantity))">
+                                Update quantity
+                            </button>
+                        </span>
+                        
                         <div>
                             <button @onclick="(() => RemoveCartItem_Click(cartItem.Id))" class="btn btn-danger sm">
                                 Delete
@@ -82,6 +89,36 @@ else
     {
         var cartItemModel = await CartService.RemoveCartItem(id);
         RemoveCartItem(id);
+    }
+
+    protected async Task UpdateCartItemQuantity_Click(int id, int quantity)
+    {
+        try
+        {
+            if (quantity > 0)
+            {
+                var updateItemModel = new UpdateCartItemQuantityModel
+                {
+                    CartItemId = id,
+                    Quantity = quantity
+                };
+
+                var returnedUpdateItemModel = await this.CartService.UpdateQuantity(updateItemModel);
+            }
+            else
+            {
+                var cartItem = this.CartItems.FirstOrDefault(i => i.Id == id);
+                if (cartItem != null)
+                {
+                    cartItem.Quantity = 1;
+                    cartItem.Total = cartItem.Price;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+  
+        }
     }
 
     private CartItemModel GetCartItem(int id)

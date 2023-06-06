@@ -13,5 +13,6 @@ namespace DDA.BusinessLogic.Services.CartService
         Task<CartItemModel> AddCartItem(AddCartItemModel addCartItemModel);
         Task<CartModel> GetUserCart(int userId);
         Task<CartItemModel> RemoveCartItem(int cartItemId);
+        Task<CartItemModel> UpdateQuantity(UpdateCartItemQuantityModel updateCartItemQuantityModel);
     }
 }
