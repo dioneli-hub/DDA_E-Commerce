@@ -5,6 +5,16 @@ namespace DDA.Api.Extensions
 {
     public static class Mapping
     {
+        public static IEnumerable<CategoryModel> ConvertToModel(this IEnumerable<Category> categories)
+        {
+            return (from c in categories
+                    select new CategoryModel
+                    {
+                        Id = c.Id,
+                        Name = c.Name
+                    }).ToList();
+        }
+
         public static IEnumerable<ItemModel> ConvertToModel(this IEnumerable<Item> items, IEnumerable<Category> categories)
         {
             return (from item in items

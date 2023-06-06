@@ -3,6 +3,7 @@ using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace DDA.Api.Controllers
 {
@@ -70,6 +71,24 @@ namespace DDA.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Can not retrieve data from database.");
+            }
+
+        }
+
+        [HttpGet]
+        [Route(nameof(GetCategories))]
+        public async Task<ActionResult<IEnumerable<CategoryModel>>> GetCategories()
+        {
+            try
+            {
+                var categories = await _itemRepository.GetCategories();
+                var categoryModels = categories.ConvertToModel();
+                return Ok(categoryModels);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database.");
             }
         }
     }

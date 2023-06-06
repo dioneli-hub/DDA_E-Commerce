@@ -1,0 +1,51 @@
+﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.ItemService;
+@using DDA.Web.Pages
+
+
+@if (CategoryModels == null && ErrorMessage == null)
+{
+    <Loading></Loading>
+}
+else if (ErrorMessage != null)
+{
+    <DisplayErrorMessage></DisplayErrorMessage>
+}
+else
+{
+    @foreach(var cat in CategoryModels)
+    {
+        var link = "/ItemsByCategory/" + cat.Id;
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="@link">
+                <span > @*May add some icons as class*@
+                    &nbsp; @cat.Name
+                </span>
+            </NavLink>
+        </div>
+    }
+}
+
+
+
+@code {
+    [Inject]
+    public IItemService ItemService { get; set; }
+
+    public IEnumerable<ItemModel> CategoryModels { get; set; }
+    public string ErrorMessage {get;set;}
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CategoryModels = await ItemService.GetCategories();
+        }
+        catch(Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+
+}
