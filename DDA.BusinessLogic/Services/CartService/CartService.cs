@@ -14,6 +14,8 @@ namespace DDA.BusinessLogic.Services.CartService
     {
         private readonly HttpClient _httpClient;
 
+        public event Action<int> OnShoppingCartChanged;
+
         public CartService(HttpClient httpClient)
         {
             _httpClient = httpClient;
@@ -143,6 +145,15 @@ namespace DDA.BusinessLogic.Services.CartService
             {
                 Console.WriteLine(e);
                 throw;
+            }
+        }
+
+        public void RaiseEventOnShoppingCartChanged(int totalQuantity)
+        {
+            if(OnShoppingCartChanged != null) //event has subscribers
+            {
+                OnShoppingCartChanged.Invoke(totalQuantity); //sending the aapropriate number to all subscribers
+
             }
         }
     }

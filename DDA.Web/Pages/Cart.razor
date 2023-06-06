@@ -81,7 +81,8 @@ else
         try
         {
             CartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
-            CalculateCartSummary();
+
+            CartChanged();
         }
         catch (Exception e)
         {
@@ -94,7 +95,7 @@ else
     {
         var cartItemModel = await CartService.RemoveCartItem(id);
         RemoveCartItem(id);
-        CalculateCartSummary();
+        CartChanged();
     }
 
     protected async Task UpdateCartItemQuantity_Click(int id, int quantity)
@@ -112,7 +113,7 @@ else
                 var returnedUpdateItemModel = await this.CartService.UpdateQuantity(updateItemModel);
 
                 UpdateTotalPrice(returnedUpdateItemModel);
-                CalculateCartSummary();
+                CartChanged();
                 await ShowUpdateQuantityButton(id, false);
             }
             else
@@ -177,4 +178,9 @@ else
         CartItems.Remove(cartItemModel);
     }
 
+    private void CartChanged()
+    {
+        CalculateCartSummary();
+        CartService.RaiseEventOnShoppingCartChanged(TotalQuantity); 
+    }
 }

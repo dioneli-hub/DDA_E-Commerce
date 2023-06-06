@@ -59,7 +59,13 @@ else
     protected override async Task OnInitializedAsync()
     {
         Items = await ItemService.GetItems();
+
         var cartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
+        var totalQuantity = cartItems.Sum(i => i.Quantity);
+
+        CartService.RaiseEventOnShoppingCartChanged(totalQuantity);
+
+
 
     }
 
