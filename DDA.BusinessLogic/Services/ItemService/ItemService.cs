@@ -36,7 +36,7 @@ namespace DDA.BusinessLogic.Services.ItemService
 
             catch (Exception)
             {
-
+                //Log later
                 throw;
             }
         }
@@ -45,7 +45,7 @@ namespace DDA.BusinessLogic.Services.ItemService
         {
             try
             {
-                var response = await _httpClient.GetAsync("api/item");
+                var response = await _httpClient.GetAsync("api/Item");
                 
                 if(response.IsSuccessStatusCode) 
                 {

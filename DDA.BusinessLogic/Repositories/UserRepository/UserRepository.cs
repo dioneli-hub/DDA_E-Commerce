@@ -38,15 +38,44 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
                     SaltHash = Convert.ToBase64String(hashModel.Salt),
                 };
 
-                if (user != null)
+
+                if (user is not null)
                 {
                     var result = await _dataContext.Users.AddAsync(user);
                     await _dataContext.SaveChangesAsync();
-                    return result.Entity;
+
+                    var cart = await CreateUserCart(result.Entity.Id);
+
+                    if (cart is not null)
+                    {
+                        return result.Entity;
+                    } 
                 }
             }
 
             return null;
+        }
+
+        public async Task<Cart> GetUserCart(int userId)
+        {
+            var userCart = await (from cart in _dataContext.Carts
+                                  where cart.UserId == userId
+                                  select cart).SingleOrDefaultAsync();
+
+            return userCart;
+        }
+
+        private async Task<Cart> CreateUserCart(int userId)
+        {
+            var cart = new Cart
+            {
+                UserId = userId
+            };
+
+            var result = await _dataContext.Carts.AddAsync(cart);
+            await _dataContext.SaveChangesAsync();
+            return result.Entity;
+
         }
 
         private async Task<bool> UserAlreadyRegistered(string email)

@@ -1,4 +1,5 @@
-﻿using DDA.DataAccess;
+﻿using DDA.BusinessLogic.UserContext;
+using DDA.DataAccess;
 using DDA.Domain;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,10 +13,12 @@ namespace DDA.BusinessLogic.Repositories.ItemRepository
     public class ItemRepository : IItemRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IUserContextService _userContextService;
 
-        public ItemRepository(DataContext dataContext)
+        public ItemRepository(DataContext dataContext, IUserContextService userContextService)
         {
             _dataContext = dataContext;
+            _userContextService = userContextService;
         }
         public async Task<IEnumerable<Category>> GetCategories()
         {

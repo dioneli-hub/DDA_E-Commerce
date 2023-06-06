@@ -34,11 +34,58 @@ namespace DDA.Api.Controllers
 
                 return Ok(newUserModel);
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
 
+        }
+
+        [HttpGet]
+        [Route("{userId}/GetUser")]
+        public async Task<ActionResult<UserModel>> GetUser(int userId)
+        {
+            try
+            {
+                var user = await _userRepository.GetUser(userId);
+                if(user is null)
+                {
+                    return NoContent();
+                }
+                var userModel = user.ConvertToModel();
+                return Ok(userModel);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+
+        [HttpGet]
+        [Route("{userId}/GetUserCart")]
+        public async Task<ActionResult<CartModel>> GetUserCart(int userId)
+        {
+            try
+            {
+                var cart = await _userRepository.GetUserCart(userId);
+
+                if (cart is null)
+                {
+                    return NoContent();
+                } 
+
+                /* add validation (probably, not in this method but somewh-ere else...)
+                 if cart is null but user exists - create new cart  for user...
+                 */
+
+                var cartModel = cart.ConvertToModel();
+                return Ok(cartModel);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
         }
 
 

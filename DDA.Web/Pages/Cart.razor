@@ -1,0 +1,186 @@
+﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.CartService;
+@using DDA.BusinessLogic.Services.UserService;
+@using System.Security.Cryptography
+
+@page "/Cart"
+
+@if(CartItems is null && ErrorMessage is null)
+{
+    <Loading></Loading>
+}
+else if(ErrorMessage is not null)
+{
+    <DisplayErrorMessage ErrorMessage ="@ErrorMessage"></DisplayErrorMessage>
+}
+else
+{
+    <h3 class="mb-5">Shopping Cart</h3>
+    @if(CartItems.Count() > 0)
+    {
+    <div class="row-mb-5">
+        <div class="col-md-9">
+            @foreach(var cartItem in CartItems)
+            {
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <img src="@cartItem.ItemImage" width="300" class="img-thumbnail">
+                    </div>
+                    <div class="col-md-8">
+                        <h5>@cartItem.ItemName</h5>
+                        <div class="mb-4">@cartItem.ItemDescription</div>
+                        <span>
+                            Price: <b>@cartItem.Price.ToString("C")</b>
+                            <input @oninput = "()=>UpdateQuantity_Input(cartItem.Id)" type="number" @bind="@cartItem.Quantity" />
+                            <button data-cartItemId="@cartItem.Id" class="btn btn-info btn-sm update-quantity" @onclick="(()=> UpdateCartItemQuantity_Click(cartItem.Id, cartItem.Quantity))">
+                                Update quantity
+                            </button>
+                        </span>
+                        
+                        <div>
+                            <button @onclick="(() => RemoveCartItem_Click(cartItem.Id))" class="btn btn-danger sm">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-3">
+            <h5>Summary</h5>
+            <div class="mt-2">
+                <div>Total: (@TotalQuantity cartItems)&nbsp;@Total</div>
+                <a href="#" class="btn btn-success">
+                    <span class="oi oi-credit-card"></span>&nbsp; Proceed to checkout
+                </a>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <h4>There are currently no items in your shopping cart.</h4>
+}
+}
+
+@code {
+    [Inject]
+    public ICartService CartService {get; set;}
+    [Inject]
+    public IUserService UserService { get; set; }
+    [Inject]
+    public IJSRuntime JavaScript { get; set; }
+    public List<CartItemModel> CartItems { get; set; }
+    protected string Total { get; set; }
+    protected int TotalQuantity { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
+
+            CartChanged();
+        }
+        catch (Exception e)
+        {
+
+            ErrorMessage = e.Message;
+        }
+    }
+
+    protected async Task RemoveCartItem_Click(int id)
+    {
+        var cartItemModel = await CartService.RemoveCartItem(id);
+        RemoveCartItem(id);
+        CartChanged();
+    }
+
+    protected async Task UpdateCartItemQuantity_Click(int id, int quantity)
+    {
+        try
+        {
+            if (quantity > 0)
+            {
+                var updateItemModel = new UpdateCartItemQuantityModel
+                {
+                    CartItemId = id,
+                    Quantity = quantity
+                };
+
+                var returnedUpdateItemModel = await this.CartService.UpdateQuantity(updateItemModel);
+
+                UpdateTotalPrice(returnedUpdateItemModel);
+                CartChanged();
+                await ShowUpdateQuantityButton(id, false);
+            }
+            else
+            {
+                var cartItem = this.CartItems.FirstOrDefault(i => i.Id == id);
+                if (cartItem != null)
+                {
+                    cartItem.Quantity = 1;
+                    cartItem.Total = cartItem.Price;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
+
+    protected async Task UpdateQuantity_Input(int id)
+    {
+        await ShowUpdateQuantityButton(id, true);
+    }
+
+    private async Task ShowUpdateQuantityButton(int id, bool visible)
+    {
+        await JavaScript.InvokeVoidAsync("ShowUpdateQuantityButton", id, visible);
+    }
+
+    private void UpdateTotalPrice(CartItemModel cartItemModel)
+    {
+        var cartItem = GetCartItem(cartItemModel.Id);
+
+        if(cartItem != null)
+        {
+            cartItem.Total = cartItemModel.Price * cartItemModel.Quantity;
+        }
+    }
+
+    private void CalculateCartSummary()
+    {
+        SetTotalprice();
+        SetTotalQuantity();
+    }
+
+    private void SetTotalprice()
+    {
+        Total = this.CartItems.Sum(p => p.Total).ToString("C");
+    }
+    private void SetTotalQuantity()
+    {
+        TotalQuantity = this.CartItems.Sum(p => p.Quantity);
+    }
+
+    private CartItemModel GetCartItem(int id)
+    {
+        return CartItems.FirstOrDefault(i => i.Id == id);
+    }
+
+    private void RemoveCartItem(int id)
+    {
+        var cartItemModel = GetCartItem(id);
+        CartItems.Remove(cartItemModel);
+    }
+
+    private void CartChanged()
+    {
+        CalculateCartSummary();
+        CartService.RaiseEventOnShoppingCartChanged(TotalQuantity); 
+    }
+}

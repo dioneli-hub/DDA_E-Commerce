@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
+using DDA.BusinessLogic.UserContext;
+using DDA.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +18,12 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DDAConnection"))
 );
 //Microsoft.NET.Sdk.Web
 //BLL dependencies
-builder.Services.AddBusinessLogicDependencies();
+builder.Services.AddApiBusinessLogicDependencies()
+    .AddScoped<IUserContextService, UserContextService>();
+
+//HTTP CONTEXT
+builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

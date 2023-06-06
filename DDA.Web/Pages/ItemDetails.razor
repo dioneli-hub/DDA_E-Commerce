@@ -1,18 +1,21 @@
 ﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.ItemService;
+@using DDA.BusinessLogic.Services.UserService;
 @page "/ItemDetails/{Id:int}"
 
-@if (Item is null && Error is null)
+@if (Item is null && ErrorMessage is null)
 {
-    <h3>Loading...</h3>
+    <Loading></Loading>
 }
-else if (Error is not null)
+else if (ErrorMessage is not null)
 {
-    <ErrorMessage Error="@Error"></ErrorMessage>
+    <DisplayErrorMessage ErrorMessage="@ErrorMessage"></DisplayErrorMessage>
 } 
 else
 {
     <h3 class=mb-5>Item Details</h3>
+    <div class="row">
     <div class="col-md-6 mb-4">
         <img class="img-fluid" src="@Item.Image">
     </div>
@@ -24,16 +27,38 @@ else
                 @Item.Price.ToString("C")&nbsp;(@Item.Quantity items in stock)
             </b>
         </p>
+    <div>
+        <button class="btn btn-success"
+        @onclick = "() => (AddItemToCart_Click(new AddCartItemModel{
+            CartId = CartService.GetUserCart(UserService.GetCurrentUserId()).Id, 
+            ItemId = Item.Id,
+            Quantity = 1
+        }))"
+        ><b>Add to Cart</b></button>
+    </div>
+    </div>
     </div>
 }
 
 @code {
     [Parameter]
     public int Id { get; set; }
+
     [Inject]
     public IItemService ItemService { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [Inject]
+    public ICartService CartService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
     public ItemModel Item { get; set; }
-    public string Error { get; set; }
+
+    public string ErrorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,7 +68,20 @@ else
         }
         catch (Exception ex)
         {
-            //ExceptionMessage = ex.Message;
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    protected async Task AddItemToCart_Click(AddCartItemModel addCartItemModel)
+    {
+        try
+        {
+            var cartItemModel = await CartService.AddCartItem(addCartItemModel);
+            NavigationManager.NavigateTo("/Cart");
+        }
+        catch (Exception)
+        {
+            //log later
         }
     }
 }

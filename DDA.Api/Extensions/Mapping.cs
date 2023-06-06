@@ -37,6 +37,42 @@ namespace DDA.Api.Extensions
             }; 
         }
 
+        public static IEnumerable<CartItemModel> ConvertToModel(this IEnumerable<CartItem> cartItems,
+            IEnumerable<Item> items)
+        {
+            return (from cartItem in cartItems
+                    join item in items
+                        on cartItem.ItemId equals item.Id
+                    select new CartItemModel
+                    {
+                        Id = cartItem.Id,
+                        ItemId = cartItem.ItemId,
+                        ItemName = item.Name,
+                        ItemDescription = item.Description,
+                        ItemImage = item.Image,
+                        Price = item.Price,
+                        CartId = cartItem.CartId,
+                        Quantity = cartItem.Quantity,
+                        Total = item.Price * cartItem.Quantity
+                    }).ToList();
+        }
+
+        public static CartItemModel ConvertToModel(this CartItem cartItem, Item item)
+        {
+            return new CartItemModel
+                    {
+                        Id = cartItem.Id,
+                        ItemId = cartItem.ItemId,
+                        ItemName = item.Name,
+                        ItemDescription = item.Description,
+                        ItemImage = item.Image,
+                        Price = item.Price,
+                        CartId = cartItem.CartId,
+                        Quantity = cartItem.Quantity,
+                        Total = item.Price * cartItem.Quantity
+                    };
+        }
+
         public static UserModel ConvertToModel(this User user)
         {
             return new UserModel
@@ -44,6 +80,15 @@ namespace DDA.Api.Extensions
                 Id = user.Id,
                 Name = user.Name,
                 Email = user.Email
+            };
+        }
+
+        public static CartModel ConvertToModel(this Cart cart)
+        {
+            return new CartModel
+            {
+                Id = cart.Id,
+                UserId = cart.UserId
             };
         }
     }

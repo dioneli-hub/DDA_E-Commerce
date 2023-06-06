@@ -7,7 +7,7 @@
 namespace DDA.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class scscscsccssc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -102,7 +102,9 @@ namespace DDA.DataAccess.Migrations
                 values: new object[,]
                 {
                     { 1, "Category1" },
-                    { 2, "Category2" }
+                    { 2, "Category2" },
+                    { 3, "Category3" },
+                    { 4, "Category4" }
                 });
 
             migrationBuilder.InsertData(
@@ -110,13 +112,29 @@ namespace DDA.DataAccess.Migrations
                 columns: new[] { "Id", "CategoryId", "Description", "Image", "Name", "Price", "Quantity" },
                 values: new object[,]
                 {
-                    { 1, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test1", 100m, 120 },
-                    { 2, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test2", 100m, 120 },
-                    { 3, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test6", 500m, 120 },
-                    { 4, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test5", 900m, 120 },
-                    { 5, 1, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test7", 900m, 120 },
-                    { 6, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test3", 100m, 120 },
-                    { 7, 2, "Air Pods - in-ear wireless headphones", "/images/cat.jpg", "test4", 100m, 120 }
+                    { 1, 1, "Description1", "/images/cat.jpg", "Cat1", 100m, 100 },
+                    { 2, 1, "Description2", "/images/cat.jpg", "Cat2", 50m, 45 },
+                    { 3, 1, "Description3", "/images/cat.jpg", "Cat3", 20m, 30 },
+                    { 4, 1, "Description4", "/images/cat.jpg", "Cat4", 50m, 60 },
+                    { 5, 1, "Description5", "/images/cat.jpg", "Cat5", 30m, 85 },
+                    { 6, 3, "Description6", "/images/cat.jpg", "Cat6", 100m, 120 },
+                    { 7, 3, "Description7", "/images/cat.jpg", "Cat7", 40m, 200 },
+                    { 8, 3, "Description8", "/images/cat.jpg", "Cat8", 40m, 300 },
+                    { 9, 3, "Description9", "/images/cat.jpg", "Cat9", 600m, 20 },
+                    { 10, 3, "Description10", "/images/cat.jpg", "Cat10", 500m, 15 },
+                    { 11, 3, "Description11", "/images/cat.jpg", "Cat11", 100m, 60 },
+                    { 12, 2, "Description12", "/images/cat.jpg", "Cat12", 50m, 212 },
+                    { 13, 2, "Description13", "/images/cat.jpg", "Cat13", 50m, 112 },
+                    { 14, 2, "Description14", "/images/cat.jpg", "Cat14", 70m, 90 },
+                    { 15, 2, "Description15", "/images/cat.jpg", "Cat15", 120m, 95 },
+                    { 16, 2, "Description16", "/images/cat.jpg", "Cat16", 15m, 100 },
+                    { 17, 2, "Description17", "/images/cat.jpg", "Cat17", 20m, 73 },
+                    { 18, 4, "Description18", "/images/cat.jpg", "Cat18", 100m, 50 },
+                    { 19, 4, "Description19", "/images/cat.jpg", "Cat19", 150m, 60 },
+                    { 20, 4, "Description20", "/images/cat.jpg", "Cat20", 200m, 70 },
+                    { 21, 4, "Description21", "/images/cat.jpg", "Cat21", 120m, 120 },
+                    { 22, 4, "Description22", "/images/cat.jpg", "Cat22", 200m, 100 },
+                    { 23, 4, "Description23", "/images/cat.jpg", "Cat23", 50m, 150 }
                 });
 
             migrationBuilder.InsertData(
