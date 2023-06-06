@@ -4,17 +4,18 @@
 @using DDA.BusinessLogic.Services.UserService;
 @page "/ItemDetails/{Id:int}"
 
-@if (Item is null && Error is null)
+@if (Item is null && ErrorMessage is null)
 {
     <Loading></Loading>
 }
-else if (Error is not null)
+else if (ErrorMessage is not null)
 {
-    <ErrorMessage Error="@Error"></ErrorMessage>
+    <DisplayErrorMessage ErrorMessage="@ErrorMessage"></DisplayErrorMessage>
 } 
 else
 {
     <h3 class=mb-5>Item Details</h3>
+    <div class="row">
     <div class="col-md-6 mb-4">
         <img class="img-fluid" src="@Item.Image">
     </div>
@@ -26,8 +27,6 @@ else
                 @Item.Price.ToString("C")&nbsp;(@Item.Quantity items in stock)
             </b>
         </p>
-    </div>
-
     <div>
         <button class="btn btn-success"
         @onclick = "() => (AddItemToCart_Click(new AddCartItemModel{
@@ -35,8 +34,9 @@ else
             ItemId = Item.Id,
             Quantity = 1
         }))"
-        ><b>Add to Cart</b>
-        </button>
+        ><b>Add to Cart</b></button>
+    </div>
+    </div>
     </div>
 }
 
@@ -58,7 +58,7 @@ else
 
     public ItemModel Item { get; set; }
 
-    public string Error { get; set; }
+    public string ErrorMessage { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -68,7 +68,7 @@ else
         }
         catch (Exception ex)
         {
-            Error = ex.Message;
+            ErrorMessage = ex.Message;
         }
     }
 

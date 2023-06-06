@@ -12,7 +12,7 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
     {
         Task<CartItem> AddCartItem(AddCartItemModel addCartItemModel);
         Task<CartItem> UpdateCartItemQuantity(int id, UpdateCartItemQuantityModel updateCartItemQuantityModel);
-        Task<CartItem> DeleteCartItem(int id);
+        Task<CartItem> RemoveCartItem(int id);
         Task<CartItem> GetCartItem(int id);
         Task<IEnumerable<CartItem>> GetUsersCartItems(int userId);
     }

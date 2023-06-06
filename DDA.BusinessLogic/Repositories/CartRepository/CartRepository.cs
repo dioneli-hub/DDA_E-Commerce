@@ -32,7 +32,8 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
                     where item.Id == addCartItemModel.ItemId
                     select new CartItem()
                     {
-                        CartId = addCartItemModel.CartId,
+                        CartId = 1,//hard-coded
+                        //CartId = addCartItemModel.CartId,
                         ItemId = item.Id,
                         Quantity = addCartItemModel.Quantity,
                     }).SingleOrDefaultAsync();
@@ -52,9 +53,17 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
             throw new NotImplementedException();
         }
 
-        public Task<CartItem> DeleteCartItem(int id)
+        public async Task<CartItem> RemoveCartItem(int id)
         {
-            throw new NotImplementedException();
+            var cartItem = await _dataContext.CartItems.FindAsync(id);
+
+            if (cartItem != null)
+            {
+                _dataContext.CartItems.Remove(cartItem);
+                await _dataContext.SaveChangesAsync();
+            }
+
+            return cartItem;
         }
 
         public async Task<CartItem> GetCartItem(int id)

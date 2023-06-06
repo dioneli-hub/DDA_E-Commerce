@@ -53,7 +53,7 @@ namespace DDA.Api.Controllers
             }
         }
 
-        [HttpGet("{id}/GetCartItem")]
+        [HttpGet("{id}/GetCartItem" , Name = nameof(GetCartItem))]
         public async Task<ActionResult<CartItemModel>> GetCartItem(int id)
         {
             try
@@ -81,7 +81,7 @@ namespace DDA.Api.Controllers
             }
         }
 
-        [HttpPost("AddCartItem")]
+        [HttpPost]
         public async Task<ActionResult<CartItemModel>> AddCartItem([FromBody]AddCartItemModel addCartItemModel)
         {
             try
@@ -102,7 +102,34 @@ namespace DDA.Api.Controllers
 
                 var newCartItemModel = newCartItem.ConvertToModel(item);
 
-                return CreatedAtAction(nameof(GetCartItem), new { id = newCartItemModel.Id}, newCartItemModel);
+                return CreatedAtAction( nameof(GetCartItem), new { id = newCartItemModel.Id}, newCartItemModel);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+            }
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<ActionResult<CartItemModel>> RemoveCartItem(int id)
+        {
+            try
+            {
+                var cartItem = await _cartRepository.RemoveCartItem(id);
+                if (cartItem == null)
+                {
+                    return NotFound();
+                }
+
+                var item = await _itemRepository.GetItem(cartItem.ItemId);
+
+                if (item == null)
+                {
+                    return NotFound();
+                }
+                var cartItemModel = cartItem.ConvertToModel(item);
+
+                return Ok(cartItemModel);
             }
             catch (Exception e)
             {

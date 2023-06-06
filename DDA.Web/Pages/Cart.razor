@@ -1,6 +1,7 @@
 ﻿@using DDA.ApiModels;
 @using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.UserService;
+@using System.Security.Cryptography
 
 @page "/Cart"
 
@@ -15,6 +16,8 @@ else if(ErrorMessage is not null)
 else
 {
     <h3 class="mb-5">Shopping Cart</h3>
+    @if(CartItems.Count() > 0)
+    {
     <div class="row-mb-5">
         <div class="col-md-9">
             @foreach(var cartItem in CartItems)
@@ -27,6 +30,11 @@ else
                         <h5>@cartItem.ItemName</h5>
                         <div class="mb-4">@cartItem.ItemDescription</div>
                         <span>Price: <b>@cartItem.Price.ToString("C")</b></span>
+                        <div>
+                            <button @onclick="(() => RemoveCartItem_Click(cartItem.Id))" class="btn btn-danger sm">
+                                Delete
+                            </button>
+                        </div>
                     </div>
                 </div>
             }
@@ -41,6 +49,11 @@ else
         </div>
     </div>
 }
+else
+{
+    <h4>There are currently no items in your shopping cart.</h4>
+}
+}
 
 @code {
     [Inject]
@@ -48,7 +61,7 @@ else
     [Inject]
     public IUserService UserService { get; set; }
 
-    public IEnumerable<CartItemModel> CartItems { get; set; }
+    public List<CartItemModel> CartItems { get; set; }
 
     public string ErrorMessage { get; set; }
 
@@ -58,11 +71,28 @@ else
         {
             CartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
         }
-        catch (Exception)
+        catch (Exception e)
         {
             
-            throw;
+            ErrorMessage = e.Message;
         }
+    }
+
+    protected async Task RemoveCartItem_Click(int id)
+    {
+        var cartItemModel = await CartService.RemoveCartItem(id);
+        RemoveCartItem(id);
+    }
+
+    private CartItemModel GetCartItem(int id)
+    {
+        return CartItems.FirstOrDefault(i => i.Id == id);
+    }
+
+    private void RemoveCartItem(int id)
+    {
+        var cartItemModel = GetCartItem(id);
+        CartItems.Remove(cartItemModel);
     }
 
 }

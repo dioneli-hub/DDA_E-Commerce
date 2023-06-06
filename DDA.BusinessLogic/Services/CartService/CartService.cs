@@ -18,26 +18,33 @@ namespace DDA.BusinessLogic.Services.CartService
         }
         public async Task<CartItemModel> AddCartItem(AddCartItemModel addCartItemModel)
         {
-            var response = await _httpClient.PostAsJsonAsync<AddCartItemModel>("api/Cart/AddCartItem", addCartItemModel);
-
-            if(response.IsSuccessStatusCode)
+            try
             {
-                if(response.StatusCode is System.Net.HttpStatusCode.NoContent)
+                var response = await _httpClient.PostAsJsonAsync<AddCartItemModel>("api/Cart", addCartItemModel);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    return default(CartItemModel);
+                    if (response.StatusCode is System.Net.HttpStatusCode.NoContent)
+                    {
+                        return default(CartItemModel);
+                    }
+
+                    return await response.Content.ReadFromJsonAsync<CartItemModel>();
                 }
 
-                return await response.Content.ReadFromJsonAsync<CartItemModel>();
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http status:{response.StatusCode} Message - {message}");
+                }
             }
-
-            else
+            catch (Exception)
             {
-                var message = await response.Content.ReadAsStringAsync();
-                throw new Exception($"Http status:{response.StatusCode} Message - {message}");
+                throw;
             }
         }
 
-        public async Task<IEnumerable<CartItemModel>> GetUsersCartItems(int userId)
+        public async Task<List<CartItemModel>> GetUsersCartItems(int userId)
         {
             try
             {
@@ -47,9 +54,9 @@ namespace DDA.BusinessLogic.Services.CartService
                 {
                     if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
-                        return Enumerable.Empty<CartItemModel>();
+                        return Enumerable.Empty<CartItemModel>().ToList();
                     }
-                    return await response.Content.ReadFromJsonAsync<IEnumerable<CartItemModel>>();
+                    return await response.Content.ReadFromJsonAsync<List<CartItemModel>>();
                 }
 
                 else
@@ -93,6 +100,25 @@ namespace DDA.BusinessLogic.Services.CartService
                 throw;
             }
 
+        }
+
+        public async Task<CartItemModel> RemoveCartItem(int cartItemId)
+        {
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/Cart/{cartItemId}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<CartItemModel>();
+                }
+                return default (CartItemModel);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
