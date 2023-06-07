@@ -18,6 +18,7 @@ namespace DDA.Api.Controllers
         }
 
         [HttpPost]
+        [Route("register")]
         [AllowAnonymous]
         public async Task<ActionResult<UserModel>> RegisterUser([FromBody]RegisterUserModel registerUserModel)
         {

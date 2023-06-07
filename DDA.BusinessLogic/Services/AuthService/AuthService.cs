@@ -1,35 +1,27 @@
-﻿using DDA.ApiModels;
-using DDA.BusinessLogic.UserContext;
-using System.Net.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Json;
+using System.Text;
+using System.Threading.Tasks;
+using DDA.ApiModels;
 
-namespace DDA.BusinessLogic.Services.UserService
+namespace DDA.BusinessLogic.Services.AuthService
 {
-    public class UserService : IUserService
+    public class AuthService : IAuthService
     {
-
         private readonly HttpClient _httpClient;
 
-        public UserService(HttpClient httpClient)
+        public AuthService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        //private readonly IUserContextService _userContextService;
-        public UserService()//IUserContextService userContextService
-        {
-            //_userContextService = userContextService;
-        }
-        public int GetCurrentUserId()
-        {
-            return 1;//_userContextService.GetCurrentUserId();
-        }
-
-        public async Task<UserModel> Register(RegisterUserModel registerUserModel)
+        public async Task<UserModel> Login(AuthModel authModel)
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync<RegisterUserModel>("api/User/register", registerUserModel);
+                var response = await _httpClient.PostAsJsonAsync<AuthModel>("api/Auth/login", authModel);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -52,6 +44,5 @@ namespace DDA.BusinessLogic.Services.UserService
                 throw;
             }
         }
-
     }
 }

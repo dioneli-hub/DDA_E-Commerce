@@ -30,6 +30,7 @@ namespace DDA.Api.Controllers
         }
 
         [HttpPost]
+        [Route("login")]
         [AllowAnonymous]
         public async Task<ActionResult<TokenModel>> Authenticate(AuthModel model)
         {

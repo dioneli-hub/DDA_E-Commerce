@@ -21,10 +21,7 @@ namespace DDA.BusinessLogic.Repositories.AuthRepository
             {
                 throw new ApplicationException("Incorrect email or password.");
             }
-
             return JwtManager.GenerateJwtToken(user.Id);
         }
-
-        
     }
 }
