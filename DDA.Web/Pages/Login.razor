@@ -2,6 +2,7 @@
 @inject IAuthService AuthService
 @inject ILocalStorageService LocalStorageService
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthStateProvider
 
 @using DDA.ApiModels
 @using Blazored.LocalStorage
@@ -35,7 +36,7 @@
     private async Task HandleLogin()
     {
         var result = await AuthService.Login(user);
-
+        await AuthStateProvider.GetAuthenticationStateAsync();
         NavigationManager.NavigateTo("");
     }
 }

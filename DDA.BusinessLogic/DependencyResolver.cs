@@ -3,12 +3,14 @@ using DDA.BusinessLogic.Repositories.AuthRepository;
 using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
+using DDA.BusinessLogic.Services.AuthService;
 using DDA.BusinessLogic.Services.CartItemsLocalStorageService;
 using DDA.BusinessLogic.Services.CartService;
 using DDA.BusinessLogic.Services.ItemService;
 using DDA.BusinessLogic.Services.ItemsLocalStorageService;
 using DDA.BusinessLogic.Services.UserService;
 using DDA.BusinessLogic.UserContext;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 namespace DDA.BusinessLogic
 {
@@ -32,6 +34,8 @@ namespace DDA.BusinessLogic
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICartService, CartService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
             //Local storage
             services.AddBlazoredLocalStorage();
