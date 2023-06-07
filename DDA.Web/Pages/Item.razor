@@ -1,7 +1,9 @@
 ﻿@page "/"
 @using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.CartItemsLocalStorageService
 @using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.ItemService;
+@using DDA.BusinessLogic.Services.ItemsLocalStorageService
 @using DDA.BusinessLogic.Services.UserService;
 
 @if (Items is null && ErrorMessage is null)
@@ -51,6 +53,12 @@ else
     public ICartService CartService { get; set; }
 
     [Inject]
+    public IItemsLocalStorageService ItemsLocalStorageService { get; set; }
+
+    [Inject]
+    public ICartItemsLocalStorageService CarttemsLocalStorageService { get; set; }
+
+    [Inject]
     public IUserService UserService { get; set; }
 
     public IEnumerable<ItemModel> Items { get; set; }
@@ -58,15 +66,21 @@ else
     public string ErrorMessage { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        Items = await ItemService.GetItems();
+        try
+        {
+            await ClearLocalStorage();
 
-        var cartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
-        var totalQuantity = cartItems.Sum(i => i.Quantity);
+            Items = await ItemsLocalStorageService.GetCollection();
 
-        CartService.RaiseEventOnShoppingCartChanged(totalQuantity);
+            var cartItems = await CarttemsLocalStorageService.GetCollection();
+            var totalQuantity = cartItems.Sum(i => i.Quantity);
 
-
-
+            CartService.RaiseEventOnShoppingCartChanged(totalQuantity);
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
     }
 
     protected IOrderedEnumerable<IGrouping<int, ItemModel>> GetItemsByCategory()
@@ -83,5 +97,11 @@ else
         return itemGroup
                 .FirstOrDefault(g => g.CategoryId == itemGroup.Key)
                 .CategoryName;
+    }
+
+    private async Task ClearLocalStorage()
+    {
+        await ItemsLocalStorageService.DeleteCollection();
+        await CarttemsLocalStorageService.DeleteCollection();
     }
 }

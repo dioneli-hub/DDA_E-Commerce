@@ -1,6 +1,8 @@
 ﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.CartItemsLocalStorageService
 @using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.ItemService;
+@using DDA.BusinessLogic.Services.ItemsLocalStorageService
 @using DDA.BusinessLogic.Services.UserService;
 @page "/ItemDetails/{Id:int}"
 
@@ -54,6 +56,14 @@ else
     public ICartService CartService { get; set; }
 
     [Inject]
+    public IItemsLocalStorageService ItemsLocalStorageService { get; set; }
+
+    [Inject]
+    public ICartItemsLocalStorageService CartItemsLocalStorageService { get; set; }
+
+    private List<CartItemModel> CartItems { get; set; }
+
+    [Inject]
     public NavigationManager NavigationManager { get; set; }
 
     public ItemModel Item { get; set; }
@@ -64,7 +74,8 @@ else
     {
         try
         {
-            Item = await ItemService.GetItem(Id);
+            CartItems = await CartItemsLocalStorageService.GetCollection();
+            Item = await GetItemById(Id);
         }
         catch (Exception ex)
         {
@@ -77,11 +88,28 @@ else
         try
         {
             var cartItemModel = await CartService.AddCartItem(addCartItemModel);
+
+            if (cartItemModel != null)
+            {
+                CartItems.Add(cartItemModel);
+                await CartItemsLocalStorageService.SaveCollection(CartItems);
+            }
+
             NavigationManager.NavigateTo("/Cart");
         }
         catch (Exception)
         {
             //log later
         }
+    }
+
+    private async Task<ItemModel> GetItemById(int id)
+    {
+        var itemModels = await ItemsLocalStorageService.GetCollection();
+        if (itemModels != null)
+        {
+            return itemModels.SingleOrDefault(i => i.Id == id);
+        }
+        return null;
     }
 }

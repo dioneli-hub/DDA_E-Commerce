@@ -24,16 +24,15 @@ namespace DDA.Api.Controllers
             try
             {
                 var items = await _itemRepository.GetItems();
-                var categories = await _itemRepository.GetCategories();
 
-                if (items == null || categories == null) 
+                if (items == null) 
                 {
                     return NotFound();
                 }
 
                 else
                 {
-                    var itemModels = items.ConvertToModel(categories);
+                    var itemModels = items.ConvertToModel();
 
                     return Ok(itemModels);
                 }
@@ -61,8 +60,7 @@ namespace DDA.Api.Controllers
 
                 else
                 {
-                    var itemCategory = await _itemRepository.GetCategory(item.CategoryId);
-                    var itemModel = item.ConvertToModel(itemCategory);
+                    var itemModel = item.ConvertToModel();
                     return Ok(itemModel);
                 }
             }
@@ -100,8 +98,7 @@ namespace DDA.Api.Controllers
             try
             {
                 var items = await _itemRepository.GetItemsByCategory(categoryId);
-                var categories = await _itemRepository.GetCategories();
-                var itemModels = items.ConvertToModel(categories);
+                var itemModels = items.ConvertToModel();
                 return Ok(itemModels);
             }
             catch (Exception e)

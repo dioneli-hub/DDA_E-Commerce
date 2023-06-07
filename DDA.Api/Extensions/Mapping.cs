@@ -15,11 +15,10 @@ namespace DDA.Api.Extensions
                     }).ToList();
         }
 
-        public static IEnumerable<ItemModel> ConvertToModel(this IEnumerable<Item> items, IEnumerable<Category> categories)
+        public static IEnumerable<ItemModel> ConvertToModel(this IEnumerable<Item> items)
         {
             return (from item in items
-                    join category in categories on item.CategoryId equals category.Id
-                    select new ItemModel
+                select new ItemModel
                     {
                         Id = item.Id,
                         Name = item.Name,
@@ -27,12 +26,12 @@ namespace DDA.Api.Extensions
                         Image = item.Image,
                         Price = item.Price,
                         Quantity = item.Quantity,
-                        CategoryId = item.CategoryId,
-                        CategoryName = category.Name,
+                        CategoryId = item.Category.Id,
+                        CategoryName = item.Category.Name
                     }).ToList();
         }
 
-        public static ItemModel ConvertToModel(this Item item, Category category)
+        public static ItemModel ConvertToModel(this Item item)
         {
             return new ItemModel
             {
@@ -42,8 +41,8 @@ namespace DDA.Api.Extensions
                 Image = item.Image,
                 Price = item.Price,
                 Quantity = item.Quantity,
-                CategoryId = item.CategoryId,
-                CategoryName = category.Name,
+                CategoryId = item.Category.Id,
+                CategoryName = item.Category.Name
             }; 
         }
 

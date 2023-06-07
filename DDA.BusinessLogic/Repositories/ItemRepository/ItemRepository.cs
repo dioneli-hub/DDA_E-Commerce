@@ -35,22 +35,26 @@ namespace DDA.BusinessLogic.Repositories.ItemRepository
 
         public async Task<Item> GetItem(int id)
         {
-            var item = await _dataContext.Items.FindAsync(id);
+            var item = await _dataContext.Items
+                .Include(i => i.Category)
+                .SingleOrDefaultAsync(i => i.Id == id);
             return item;
         }
 
         public async Task<IEnumerable<Item>> GetItems()
         {
-            var items = await _dataContext.Items.ToListAsync();
+            var items = await _dataContext.Items
+                .Include(i => i.Category)
+                .ToListAsync();
 
             return items;
         }
 
         public async Task<IEnumerable<Item>> GetItemsByCategory(int categoryId)
         {
-            var items = await (from item in _dataContext.Items
-                               where item.CategoryId == categoryId
-                               select item).ToListAsync();
+            var items = await _dataContext.Items
+                .Include(i => i.Category)
+                .Where(i => i.CategoryId == categoryId).ToListAsync();
             return items;
         }
     }

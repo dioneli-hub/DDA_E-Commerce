@@ -1,4 +1,5 @@
 ﻿@using DDA.ApiModels;
+@using DDA.BusinessLogic.Services.ItemsLocalStorageService
 @page "/ItemsByCategory/{CategoryId:int}"
 
 @if(Items == null && ErrorMessage == null){
@@ -21,6 +22,8 @@ else {
 
     [Inject]
     public IItemService ItemService { get; set; }
+    [Inject]
+    public IItemsLocalStorageService ItemsLocalStorageService { get; set; }
 
     public IEnumerable<ItemModel> Items { get; set; }
 
@@ -32,7 +35,7 @@ else {
     {
         try
         {
-            Items = await ItemService.GetItemsByCategory(CategoryId);
+            Items = await GetItemsCollectionByCategoryId(CategoryId);
 
             if (Items != null && Items.Count() > 0)
             {
@@ -49,5 +52,17 @@ else {
         }
     }
 
-
+    private async Task<IEnumerable<ItemModel>> GetItemsCollectionByCategoryId(int categoryId)
+    {
+        var itemsCollection = await ItemsLocalStorageService.GetCollection();
+        if (itemsCollection != null)
+        {
+            return itemsCollection
+                .Where(i => i.CategoryId == categoryId);
+        }
+        else
+        {
+            return await ItemService.GetItemsByCategory(categoryId);
+        }
+    }
 }
