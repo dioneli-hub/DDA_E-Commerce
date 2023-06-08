@@ -1,4 +1,5 @@
-﻿using Blazored.LocalStorage;
+﻿global using Microsoft.AspNetCore.Components.Authorization;
+using Blazored.LocalStorage;
 using DDA.BusinessLogic.Repositories.AuthRepository;
 using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
@@ -10,7 +11,6 @@ using DDA.BusinessLogic.Services.ItemService;
 using DDA.BusinessLogic.Services.ItemsLocalStorageService;
 using DDA.BusinessLogic.Services.UserService;
 using DDA.BusinessLogic.UserContext;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 namespace DDA.BusinessLogic
 {
@@ -24,7 +24,6 @@ namespace DDA.BusinessLogic
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
 
-
             return services;
         }
 
@@ -36,6 +35,9 @@ namespace DDA.BusinessLogic
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
+
+            services.AddOptions();
+            services.AddAuthorizationCore();
 
             //Local storage
             services.AddBlazoredLocalStorage();

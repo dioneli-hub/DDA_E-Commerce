@@ -30,7 +30,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//Authrorization & authentication &
+//Authorization & authentication
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -43,7 +43,8 @@ builder.Services.AddAuthentication(options =>
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("GDxN28S3JvTRNqzGULCZvH9kzQ8qrxdB")),
+                        //IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("GDxN28S3JvTRNqzGULCZvH9kzQ8qrxdB")),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetSection("ApplicationSettings:Secret").Value)),
                         ValidateLifetime = true,
                         ValidateIssuer = true, // was true
                         ValidIssuer = "DDA.Issuer",
@@ -87,7 +88,6 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // Build
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

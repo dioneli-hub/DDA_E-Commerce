@@ -36,6 +36,8 @@
     private async Task HandleLogin()
     {
         var result = await AuthService.Login(user);
+        Console.WriteLine($"result is: {result}");
+        await LocalStorageService.SetItemAsync("token", result.Token);
         await AuthStateProvider.GetAuthenticationStateAsync();
         NavigationManager.NavigateTo("");
     }

@@ -1,5 +1,4 @@
 ﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
@@ -19,22 +18,22 @@ namespace DDA.BusinessLogic
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            string authToken = await _localStorageService.GetItemAsStringAsync("authToken");
+            string token = await _localStorageService.GetItemAsStringAsync("token");
 
-            var identity = new ClaimsIdentity();
+            var identity = new ClaimsIdentity(); //User not authorized yet.
             _httpClient.DefaultRequestHeaders.Authorization = null;
 
-            if (!string.IsNullOrEmpty(authToken))
+            if (!string.IsNullOrEmpty(token))
             {
                 try
                 {
-                    identity = new ClaimsIdentity(ParseClaimsFromJwt(authToken), "jwt");
+                    identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
                     _httpClient.DefaultRequestHeaders.Authorization =
-                        new AuthenticationHeaderValue("Bearer", authToken.Replace("\"", ""));
+                        new AuthenticationHeaderValue("Bearer", token.Replace("\"", ""));
                 }
                 catch
                 {
-                    await _localStorageService.RemoveItemAsync("authToken");
+                    await _localStorageService.RemoveItemAsync("token");
                     identity = new ClaimsIdentity();
                 }
             }
@@ -42,7 +41,7 @@ namespace DDA.BusinessLogic
             var user = new ClaimsPrincipal(identity);
             var state = new AuthenticationState(user);
 
-            NotifyAuthenticationStateChanged(Task.FromResult(state));
+            NotifyAuthenticationStateChanged(Task.FromResult(state)); //The Authentication state notification for some other components.
 
             return state;
         }

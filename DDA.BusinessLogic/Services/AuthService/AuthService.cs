@@ -5,6 +5,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using DDA.ApiModels;
+using DDA.BusinessLogic.AuthManagers;
 
 namespace DDA.BusinessLogic.Services.AuthService
 {
@@ -17,7 +18,7 @@ namespace DDA.BusinessLogic.Services.AuthService
             _httpClient = httpClient;
         }
 
-        public async Task<UserModel> Login(AuthModel authModel)
+        public async Task<TokenModel> Login(AuthModel authModel)
         {
             try
             {
@@ -27,10 +28,10 @@ namespace DDA.BusinessLogic.Services.AuthService
                 {
                     if (response.StatusCode is System.Net.HttpStatusCode.NoContent)
                     {
-                        return default(UserModel);
+                        return default(TokenModel);
                     }
 
-                    return await response.Content.ReadFromJsonAsync<UserModel>();
+                    return await response.Content.ReadFromJsonAsync<TokenModel>();
                 }
 
                 else
