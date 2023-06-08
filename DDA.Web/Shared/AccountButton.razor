@@ -10,13 +10,11 @@
     <div class="dropdown-menu dropdown-menu-right @AccountMenuCssClass">
         <AuthorizeView>
             <Authorized>
-                <a href="userprofile" class="dropdown-item">Profile</a>
-                <hr />
                 <button class="dropdown-item" @onclick="Logout">Logout</button>
             </Authorized>
             <NotAuthorized>
                 <a href="register" class="dropdown-item">Create Account</a>
-                <a href="login?returnUrl=@NavigationManager.ToBaseRelativePath(NavigationManager.Uri)" class="dropdown-item">Login</a>
+                <a href="login" class="dropdown-item">Login</a>
             </NotAuthorized>
         </AuthorizeView>
     </div>
@@ -42,6 +40,6 @@
     {
         await LocalStorageService.RemoveItemAsync("token");
         await AuthStateProvider.GetAuthenticationStateAsync();
-        NavigationManager.NavigateTo("");
+        NavigationManager.NavigateTo("login");
     }
 }

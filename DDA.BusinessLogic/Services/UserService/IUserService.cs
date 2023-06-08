@@ -9,7 +9,7 @@ namespace DDA.BusinessLogic.Services.UserService
 {
     public interface IUserService
     {
-        public int GetCurrentUserId();
+        //public int GetCurrentUserId();
         Task<UserModel> Register(RegisterUserModel registerUserModel);
     }
 }

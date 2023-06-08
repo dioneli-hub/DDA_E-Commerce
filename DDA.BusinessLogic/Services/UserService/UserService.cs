@@ -16,14 +16,14 @@ namespace DDA.BusinessLogic.Services.UserService
         }
 
         //private readonly IUserContextService _userContextService;
-        public UserService()//IUserContextService userContextService
-        {
-            //_userContextService = userContextService;
-        }
-        public int GetCurrentUserId()
-        {
-            return 1;//_userContextService.GetCurrentUserId();
-        }
+        //public UserService(IUserContextService userContextService)
+        //{
+        //    _userContextService = userContextService;
+        //}
+        //public int GetCurrentUserId()
+        //{
+        //    return _userContextService.GetCurrentUserId();
+        //}
 
         public async Task<UserModel> Register(RegisterUserModel registerUserModel)
         {

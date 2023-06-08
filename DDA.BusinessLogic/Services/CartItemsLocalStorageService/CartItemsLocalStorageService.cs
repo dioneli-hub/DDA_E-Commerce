@@ -38,7 +38,7 @@ namespace DDA.BusinessLogic.Services.CartItemsLocalStorageService
 
         private async Task<List<CartItemModel>> AddCollection()
         {
-            var cartCollection = await _cartService.GetUsersCartItems(1);
+            var cartCollection = await _cartService.GetUsersCartItems();
 
             if (cartCollection != null)
             {

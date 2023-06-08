@@ -20,21 +20,33 @@
         </div>
         
         <CategoriesNavMenu/>
+    
+        <AuthorizeView>
+        <Authorized>
+            <div class="nav-item px-3 d-sm-none">
+                <NavLink class="nav-link" href="Cart">
+                    <span class="oi oi-cart" aria-hidden="true"></span> Cart (<b>@cartItemsCount</b>)
+                </NavLink>
+            </div>
+        </Authorized>
+            <NotAuthorized>
+                <div class="nav-item px-3 d-sm-none">
+                    <NavLink class="nav-link" href="Register">
+                        <span class="oi oi-plus" aria-hidden="true"></span> Register
+                    </NavLink>
+                </div>
+                <div class="nav-item px-3 d-sm-none">
+                    <NavLink class="nav-link" href="login">
+                        <span class="oi oi-account-login" aria-hidden="true"></span> Login
+                    </NavLink>
+                </div>
+            </NotAuthorized>
 
-        <div class="nav-item px-3 d-sm-none">
-            <NavLink class="nav-link" href="Cart">
-                <span class="oi oi-cart" aria-hidden="true"></span> Cart (<b>@cartItemsCount</b>)
-            </NavLink>
-        </div>
-
-        <div class="nav-item px-3 d-sm-none">
-            <NavLink class="nav-link" href="Register">
-                <span class="oi oi-cart" aria-hidden="true"></span> Register
-            </NavLink>
-        </div>
+        </AuthorizeView>
 
     </nav>
 </div>
+
 
 @code {
     private bool collapseNavMenu = true;

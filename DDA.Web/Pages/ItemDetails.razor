@@ -29,15 +29,14 @@ else
                 @Item.Price.ToString("C")&nbsp;(@Item.Quantity items in stock)
             </b>
         </p>
-    <div>
-        <button class="btn btn-success"
-        @onclick = "() => (AddItemToCart_Click(new AddCartItemModel{
-            CartId = CartService.GetUserCart(UserService.GetCurrentUserId()).Id, 
-            ItemId = Item.Id,
-            Quantity = 1
-        }))"
-        ><b>Add to Cart</b></button>
-    </div>
+        <div>
+            <AuthorizeView>
+                <Authorized>
+                <button class="btn btn-success"
+                        @onclick="() => (AddItemToCart_Click(new AddCartItemModel { CartId = CartService.GetUserCart().Id, ItemId = Item.Id, Quantity = 1 }))"><b>Add to Cart</b></button>
+                </Authorized>
+                </AuthorizeView>
+            </div>
     </div>
     </div>
 }
