@@ -9,9 +9,9 @@ namespace DDA.BusinessLogic.Services.CartService
 {
     public interface ICartService
     {
-        Task<List<CartItemModel>> GetUsersCartItems(int userId);
+        Task<List<CartItemModel>> GetUsersCartItems();
         Task<CartItemModel> AddCartItem(AddCartItemModel addCartItemModel);
-        Task<CartModel> GetUserCart(int userId);
+        Task<CartModel> GetUserCart();
         Task<CartItemModel> RemoveCartItem(int cartItemId);
         Task<CartItemModel> UpdateQuantity(UpdateCartItemQuantityModel updateCartItemQuantityModel);
 

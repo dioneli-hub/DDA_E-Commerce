@@ -2,6 +2,7 @@
 using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
+using DDA.BusinessLogic.UserContext;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
@@ -15,21 +16,24 @@ namespace DDA.Api.Controllers
     {
         private readonly ICartRepository _cartRepository;
         private readonly IItemRepository _itemRepository;
-
+        private readonly IUserContextService _userContextService;
         public CartController(ICartRepository cartRepository,
-            IItemRepository itemRepository)
+            IItemRepository itemRepository, 
+            IUserContextService userContextService)
         {
             _cartRepository = cartRepository;
             _itemRepository = itemRepository;
+            _userContextService = userContextService;
         }
 
         [HttpGet]
-        [Route("{userId}/GetUsersCartItems")]
-        public async Task<ActionResult<IEnumerable<CartItemModel>>> GetUsersCartItems(int userId)
+        [Route("GetUsersCartItems")]
+        public async Task<ActionResult<IEnumerable<CartItemModel>>> GetUsersCartItems()
         {
+            var currentUserId = _userContextService.GetCurrentUserId();
             try
             {
-                var cartItems = await _cartRepository.GetUsersCartItems(userId);
+                var cartItems = await _cartRepository.GetUsersCartItems(currentUserId);
 
                 if (cartItems is null)
                 {

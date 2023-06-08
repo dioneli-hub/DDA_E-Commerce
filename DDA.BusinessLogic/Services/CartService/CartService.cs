@@ -48,11 +48,11 @@ namespace DDA.BusinessLogic.Services.CartService
             }
         }
 
-        public async Task<List<CartItemModel>> GetUsersCartItems(int userId)
+        public async Task<List<CartItemModel>> GetUsersCartItems()
         {
             try
             {
-                var response = await _httpClient.GetAsync($"api/Cart/{userId}/GetUsersCartItems");
+                var response = await _httpClient.GetAsync($"api/Cart/GetUsersCartItems");
 
                 if (response.IsSuccessStatusCode) 
                 {
@@ -76,9 +76,9 @@ namespace DDA.BusinessLogic.Services.CartService
             }
         }
 
-        public async Task<CartModel> GetUserCart(int userId)
+        public async Task<CartModel> GetUserCart()
         {
-            var response = await _httpClient.GetAsync($"api/{userId}/GetUserCart");
+            var response = await _httpClient.GetAsync($"api/User/GetUserCart");
 
             try
             {

@@ -372,24 +372,24 @@ namespace DDA.DataAccess
             });
 
             //Users
-            modelBuilder.Entity<User>().HasData(new User
-            {
-                Id = 1,
-                Name = "Dastan",
-                PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
-                SaltHash = "osWQVLjdW582FSVB6aMwDg==",
-                Email = "string"
+            //modelBuilder.Entity<User>().HasData(new User
+            //{
+            //    Id = 1,
+            //    Name = "Dastan",
+            //    PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
+            //    SaltHash = "osWQVLjdW582FSVB6aMwDg==",
+            //    Email = "string"
 
-            });
-            modelBuilder.Entity<User>().HasData(new User
-            {
-                Id = 2,
-                Name = "Diana",
-                PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
-                SaltHash = "/ZcP5+73VeaG0k1WH6eddw==",
-                Email = "string1"
+            //});
+            //modelBuilder.Entity<User>().HasData(new User
+            //{
+            //    Id = 2,
+            //    Name = "Diana",
+            //    PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
+            //    SaltHash = "/ZcP5+73VeaG0k1WH6eddw==",
+            //    Email = "string1"
 
-            });
+            //});
 
             //Shopping Cart for Users
             modelBuilder.Entity<Cart>().HasData(new Cart

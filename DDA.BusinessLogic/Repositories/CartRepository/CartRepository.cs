@@ -32,8 +32,8 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
                     where item.Id == addCartItemModel.ItemId
                     select new CartItem()
                     {
-                        CartId = 1,//hard-coded
-                        //CartId = addCartItemModel.CartId,
+                        //CartId = 1,//hard-coded
+                        CartId = addCartItemModel.CartId,
                         ItemId = item.Id,
                         Quantity = addCartItemModel.Quantity,
                     }).SingleOrDefaultAsync();

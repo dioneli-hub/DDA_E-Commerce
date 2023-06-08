@@ -12,6 +12,32 @@ namespace DDA.BusinessLogic.Services.ItemService
             _httpClient = httpClient;
         }
 
+        public async Task<IEnumerable<ItemModel>> GetCategories()
+        {
+            try 
+            {
+                var response = await _httpClient.GetAsync("api/Item/GetCategories");
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<ItemModel>();
+                    }
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ItemModel>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http Status Code - {response.StatusCode}");
+                }
+            }
+            catch (Exception)
+            {
+                // log exception
+                throw;
+            }
+        }
+
         public async Task<ItemModel> GetItem(int id)
         {
             try
@@ -65,6 +91,32 @@ namespace DDA.BusinessLogic.Services.ItemService
             catch (Exception)
             {
 
+                throw;
+            }
+        }
+
+        public async Task<IEnumerable<ItemModel>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"api/Item/{categoryId}/GetItemsByCategory");
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        return Enumerable.Empty<ItemModel>();
+                    }
+                    return await response.Content.ReadFromJsonAsync<IEnumerable<ItemModel>>();
+                }
+                else
+                {
+                    var message = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Http Status Code - {response.StatusCode}");
+                }
+            }
+            catch (Exception)
+            {
+                // log exception
                 throw;
             }
         }

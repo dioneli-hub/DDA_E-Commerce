@@ -13,5 +13,6 @@ namespace DDA.BusinessLogic.Repositories.ItemRepository
         Task<Item> GetItem(int id);
         Task<Category> GetCategory(int id);
         Task<IEnumerable<Category>> GetCategories();
+        Task<IEnumerable<Item>> GetItemsByCategory(int catId);
     }
 }

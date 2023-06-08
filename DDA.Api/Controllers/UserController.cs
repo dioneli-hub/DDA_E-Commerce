@@ -2,6 +2,7 @@
 using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
+using DDA.BusinessLogic.UserContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +13,15 @@ namespace DDA.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        public UserController(IUserRepository userRepository)
+        private readonly  IUserContextService _userContext;
+        public UserController(IUserRepository userRepository, IUserContextService userContext)
         {
-            _userRepository = userRepository;
+            _userRepository = userRepository; 
+            _userContext = userContext;
         }
 
         [HttpPost]
+        [Route("register")]
         [AllowAnonymous]
         public async Task<ActionResult<UserModel>> RegisterUser([FromBody]RegisterUserModel registerUserModel)
         {
@@ -63,19 +67,21 @@ namespace DDA.Api.Controllers
 
 
         [HttpGet]
-        [Route("{userId}/GetUserCart")]
-        public async Task<ActionResult<CartModel>> GetUserCart(int userId)
+        //[Route("{userId}/GetUserCart")]
+        [Route("GetUserCart")]
+        public async Task<ActionResult<CartModel>> GetUserCart()
         {
+            var currentUserId = _userContext.GetCurrentUserId();
             try
             {
-                var cart = await _userRepository.GetUserCart(userId);
+                var cart = await _userRepository.GetUserCart(currentUserId);
 
                 if (cart is null)
                 {
                     return NoContent();
                 } 
 
-                /* add validation (probably, not in this method but somewh-ere else...)
+                /* add validation (probably, not in this method but somewhere else...)
                  if cart is null but user exists - create new cart  for user...
                  */
 

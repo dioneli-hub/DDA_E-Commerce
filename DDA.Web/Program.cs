@@ -1,3 +1,4 @@
+global using Microsoft.AspNetCore.Components.Authorization;
 using DDA.BusinessLogic;
 using DDA.Web;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +11,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddWebBusinessLogicDependencies();
-
-
 
 await builder.Build().RunAsync();
 

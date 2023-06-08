@@ -2,6 +2,8 @@
 @using DDA.BusinessLogic.Services.CartService;
 @using DDA.BusinessLogic.Services.UserService;
 @using System.Security.Cryptography
+@using DDA.BusinessLogic.Services.CartItemsLocalStorageService
+@using DDA.BusinessLogic.Services.ItemsLocalStorageService
 
 @page "/Cart"
 
@@ -69,6 +71,10 @@ else
     [Inject]
     public IUserService UserService { get; set; }
     [Inject]
+    public IItemsLocalStorageService ItemsLocalStorageService { get; set; }
+    [Inject]
+    public ICartItemsLocalStorageService CartItemsLocalStorageService { get; set; }
+    [Inject]
     public IJSRuntime JavaScript { get; set; }
     public List<CartItemModel> CartItems { get; set; }
     protected string Total { get; set; }
@@ -80,7 +86,7 @@ else
     {
         try
         {
-            CartItems = await CartService.GetUsersCartItems(UserService.GetCurrentUserId());
+            CartItems = await CartItemsLocalStorageService.GetCollection();
 
             CartChanged();
         }
@@ -112,7 +118,7 @@ else
 
                 var returnedUpdateItemModel = await this.CartService.UpdateQuantity(updateItemModel);
 
-                UpdateTotalPrice(returnedUpdateItemModel);
+                await UpdateTotalPrice(returnedUpdateItemModel);
                 CartChanged();
                 await ShowUpdateQuantityButton(id, false);
             }
@@ -128,7 +134,7 @@ else
         }
         catch (Exception e)
         {
-
+            throw;
         }
     }
 
@@ -142,7 +148,7 @@ else
         await JavaScript.InvokeVoidAsync("ShowUpdateQuantityButton", id, visible);
     }
 
-    private void UpdateTotalPrice(CartItemModel cartItemModel)
+    private async Task UpdateTotalPrice(CartItemModel cartItemModel)
     {
         var cartItem = GetCartItem(cartItemModel.Id);
 
@@ -150,6 +156,8 @@ else
         {
             cartItem.Total = cartItemModel.Price * cartItemModel.Quantity;
         }
+
+        await CartItemsLocalStorageService.SaveCollection(CartItems);
     }
 
     private void CalculateCartSummary()
@@ -172,10 +180,11 @@ else
         return CartItems.FirstOrDefault(i => i.Id == id);
     }
 
-    private void RemoveCartItem(int id)
+    private async Task RemoveCartItem(int id)
     {
         var cartItemModel = GetCartItem(id);
         CartItems.Remove(cartItemModel);
+        await CartItemsLocalStorageService.SaveCollection(CartItems);
     }
 
     private void CartChanged()

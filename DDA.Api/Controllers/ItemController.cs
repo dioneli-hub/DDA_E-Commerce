@@ -3,6 +3,7 @@ using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Client;
 
 namespace DDA.Api.Controllers
 {
@@ -23,16 +24,15 @@ namespace DDA.Api.Controllers
             try
             {
                 var items = await _itemRepository.GetItems();
-                var categories = await _itemRepository.GetCategories();
 
-                if (items == null || categories == null) 
+                if (items == null) 
                 {
                     return NotFound();
                 }
 
                 else
                 {
-                    var itemModels = items.ConvertToModel(categories);
+                    var itemModels = items.ConvertToModel();
 
                     return Ok(itemModels);
                 }
@@ -60,8 +60,7 @@ namespace DDA.Api.Controllers
 
                 else
                 {
-                    var itemCategory = await _itemRepository.GetCategory(item.CategoryId);
-                    var itemModel = item.ConvertToModel(itemCategory);
+                    var itemModel = item.ConvertToModel();
                     return Ok(itemModel);
                 }
             }
@@ -70,6 +69,42 @@ namespace DDA.Api.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     "Can not retrieve data from database.");
+            }
+
+        }
+
+        [HttpGet]
+        [Route(nameof(GetCategories))]
+        public async Task<ActionResult<IEnumerable<CategoryModel>>> GetCategories()
+        {
+            try
+            {
+                var categories = await _itemRepository.GetCategories();
+                var categoryModels = categories.ConvertToModel();
+                return Ok(categoryModels);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database.");
+            }
+        }
+
+
+        [HttpGet]
+        [Route("{categoryId}/GetItemsByCategory")]
+        public async Task<ActionResult<IEnumerable<ItemModel>>> GetItemsByCategory(int categoryId)
+        {
+            try
+            {
+                var items = await _itemRepository.GetItemsByCategory(categoryId);
+                var itemModels = items.ConvertToModel();
+                return Ok(itemModels);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database.");
             }
         }
     }

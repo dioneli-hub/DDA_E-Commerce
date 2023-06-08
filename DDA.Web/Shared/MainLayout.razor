@@ -8,7 +8,13 @@
 
     <main>
         <div class="top-row px-4">
-            <CartMenu/>
+            <AuthorizeView>
+                <Authorized>
+                    <CartMenu/>
+                </Authorized>
+            </AuthorizeView>
+            <AccountButton/>
+
         </div>
 
         <article class="content px-4">
