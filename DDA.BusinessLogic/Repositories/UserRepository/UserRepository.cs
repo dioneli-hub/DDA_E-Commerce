@@ -82,12 +82,16 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
                 (x => x.Email == email);
         }
 
-        public async Task<bool> ChangePassword(int userId, string newPassword)
+        public async Task<ServiceResponse<bool>> ChangePassword(int userId, string newPassword)
         {
             var user = await _dataContext.Users.FindAsync(userId);
             if (user == null)
             {
-                throw new ApplicationException("User not found");
+                return new ServiceResponse<bool>
+                {
+                    Success = false,
+                    Message = "User not found :("
+                };
             }
 
                 var hashModel = _hashManager.Generate(newPassword);
@@ -99,7 +103,11 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
 
             await _dataContext.SaveChangesAsync();
 
-            return true;
+            return new ServiceResponse<bool>
+            {
+                Data = true,
+                Message = "The password has been changed successfully!"
+            };
         }
     }
 }

@@ -1,12 +1,13 @@
 ﻿using DDA.ApiModels;
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
+using DDA.Domain;
 
 namespace DDA.Web.Services.AuthService
 {
     public interface IAuthService
     {
-        Task<TokenModel> Login(AuthModel authModel);
-        Task<bool> ChangePassword(ChangePasswordModel changePasswordModel);
+        Task<ServiceResponse<string>> Login(AuthModel authModel);
+        Task<ServiceResponse<bool>> ChangePassword(ChangePasswordModel changePasswordModel);
         //Task<UserModel> GetAuthenticatedUser();
         Task<bool> IsAuthenticated();
     }

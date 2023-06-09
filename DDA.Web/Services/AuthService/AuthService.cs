@@ -4,8 +4,11 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Azure.Core;
 using DDA.ApiModels;
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
+using DDA.Domain;
+using static System.Net.WebRequestMethods;
 
 namespace DDA.Web.Services.AuthService
 {
@@ -18,38 +21,16 @@ namespace DDA.Web.Services.AuthService
             _httpClient = httpClient;
         }
 
-        public async Task<TokenModel> Login(AuthModel authModel)
+        public async Task<ServiceResponse<string>> Login(AuthModel authModel)
         {
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync<AuthModel>("api/Auth/login", authModel);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    if (response.StatusCode is System.Net.HttpStatusCode.NoContent)
-                    {
-                        return default(TokenModel);
-                    }
-
-                    return await response.Content.ReadFromJsonAsync<TokenModel>();
-                }
-
-                else
-                {
-                    var message = await response.Content.ReadAsStringAsync();
-                    throw new Exception($"Http status:{response.StatusCode} Message - {message}");
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            var result = await _httpClient.PostAsJsonAsync("api/Auth/login", authModel);
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<string>>();
         }
 
-        public async Task<bool> ChangePassword(ChangePasswordModel changePasswordModel)
+        public async Task<ServiceResponse<bool>> ChangePassword(ChangePasswordModel changePasswordModel)
         {
             var result = await _httpClient.PostAsJsonAsync("api/Auth/change-password", changePasswordModel.Password);
-            return await result.Content.ReadFromJsonAsync<bool>();
+            return await result.Content.ReadFromJsonAsync<ServiceResponse<bool>>();
         }
 
         //public async Task<UserModel> GetAuthenticatedUser()

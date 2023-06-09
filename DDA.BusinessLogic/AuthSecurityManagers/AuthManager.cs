@@ -2,6 +2,7 @@
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
 using DDA.DataAccess;
+using DDA.Domain;
 
 namespace DDA.BusinessLogic.AuthSecurityManagers
 {
@@ -20,16 +21,26 @@ namespace DDA.BusinessLogic.AuthSecurityManagers
             _passwordVerifier = passwordVerifier;
         }
 
-        public async Task<TokenModel> Authenticate(string email, string password)
+        public async Task<ServiceResponse<string>> Authenticate(string email, string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            var response = new ServiceResponse<string>();
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Email.ToLower() == email.ToLower());
 
-            if (user == null || !await _passwordVerifier.Verify(user.Id, password))
+            if (user == null)
             {
-                throw new ApplicationException("Incorrect email or password.");
+                response.Success = false;
+                response.Message = "User not found :(";
             }
-
-            return _jwtManager.GenerateJwtToken(user.Id);
+            else if (!await _passwordVerifier.Verify(user.Id, password))
+            {
+                response.Success = false;
+                response.Message = "Incorrect password. Please, try again.";
+            }
+            else 
+            {
+                response.Data = _jwtManager.GenerateJwtToken(user.Id);
+            }
+            return response;
         }
 
         

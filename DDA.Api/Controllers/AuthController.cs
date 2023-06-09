@@ -1,9 +1,11 @@
-﻿using DDA.Api.Extensions;
+﻿using Azure.Core;
+using DDA.Api.Extensions;
 using DDA.ApiModels;
 using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using DDA.BusinessLogic.UserContext;
+using DDA.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -48,20 +50,28 @@ namespace DDA.Api.Controllers
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenModel>> Authenticate(AuthModel model)
+        public async Task<ActionResult<string>> Authenticate(AuthModel model)
         {
-            var token = await _authManager.Authenticate(model.Email, model.Password);
-            return Ok(token);
+            var response = await _authManager.Authenticate(model.Email, model.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
         [HttpPost]
         [Route("change-password")]
         [Authorize]
-        public async Task<ActionResult<bool>> ChangePassword([FromBody] string newPassword)
+        public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
         {
             var userId = User.FindFirstValue(ClaimTypes.Name);
             var response = await _userRepository.ChangePassword(int.Parse(userId), newPassword);
 
+            if(!response.Success)
+            {
+                return BadRequest(response);
+            }
             return Ok(response);
         }
 

@@ -10,7 +10,7 @@ namespace DDA.BusinessLogic.AuthSecurityManagers
 {
     public class JwtManager : IJwtManager
     {
-        public TokenModel GenerateJwtToken(int userId)
+        public string GenerateJwtToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var nowUtc = DateTimeOffset.UtcNow;
@@ -19,11 +19,12 @@ namespace DDA.BusinessLogic.AuthSecurityManagers
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var token = tokenHandler.WriteToken(securityToken);
 
-            return new TokenModel
+            var result = new TokenModel
             {
                 ExpiredAt = expiresAt,
                 Token = token
             };
+            return result.Token;
         }
 
         public bool IsValidAuthToken(string token)
