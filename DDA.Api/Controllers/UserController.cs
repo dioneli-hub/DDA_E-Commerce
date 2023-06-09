@@ -1,6 +1,5 @@
 ﻿using DDA.Api.Extensions;
 using DDA.ApiModels;
-using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using DDA.BusinessLogic.UserContext;
 using Microsoft.AspNetCore.Authorization;
@@ -69,13 +68,10 @@ namespace DDA.Api.Controllers
 
 
         [HttpGet]
-        //[Route("{userId}/GetUserCart")]
         [Route("GetUserCart")]
         public async Task<ActionResult<CartModel>> GetUserCart()
         {
             int currentUserId = _userContext.GetCurrentUserId();
-            //if (currentUserId is not null)
-            //{
                 try
                 {
                     var cart = await _userRepository.GetUserCart(currentUserId);
@@ -96,10 +92,6 @@ namespace DDA.Api.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
                 }
-            //}
-
-            //return null;
-
 
         }
     }

@@ -3,6 +3,7 @@ using DDA.ApiModels;
 using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.BusinessLogic.Repositories.UserRepository;
+using DDA.BusinessLogic.UserContext;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -16,20 +17,23 @@ namespace DDA.Api.Controllers
         
         private readonly IUserRepository _userRepository;
         private readonly IAuthManager _authManager;
+        private readonly IUserContextService _userContextService;
 
         public AuthController(
             IUserRepository userRepository,
-            IAuthManager authManager)
+            IAuthManager authManager,
+            IUserContextService userContextService)
         {
             _userRepository = userRepository;
             _authManager = authManager;
+            _userContextService = userContextService;
         }
 
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<UserModel>> AuthenticatedUser()
         {
-            var user = await _userRepository.GetUser(this.CurrentUserId);
+            var user = await _userRepository.GetUser(_userContextService.GetCurrentUserId());
             var userModel = user.ConvertToModel();
             return Ok(userModel);
         }
@@ -38,7 +42,7 @@ namespace DDA.Api.Controllers
         [Route("IsAuthenticated")]
         public async Task<ActionResult<bool>> IsAuthenticated()
         {
-            return HttpContext.User.Identity.IsAuthenticated ? Ok(true) : Ok(false);
+            return _userContextService.IsUserLoggedIn() ? Ok(true) : Ok(false);
         }
 
         [HttpPost]
@@ -61,14 +65,5 @@ namespace DDA.Api.Controllers
             return Ok(response);
         }
 
-        public int CurrentUserId
-        {
-            get
-            {
-                Console.WriteLine($"!!!!!!!!!!!!!!!!!!!NAME CLAIM {HttpContext.User.Identity!.Name}");
-                var nameClaim = HttpContext.User.Identity!.Name;
-                return int.Parse(nameClaim!);
-            }
-        }
     }
 }

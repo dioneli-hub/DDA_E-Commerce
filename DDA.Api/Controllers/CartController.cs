@@ -3,10 +3,8 @@ using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.UserContext;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
-using Microsoft.IdentityModel.Tokens;
+
 
 namespace DDA.Api.Controllers
 {

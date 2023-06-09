@@ -8,6 +8,7 @@ namespace DDA.BusinessLogic.UserContext
 {
     public interface IUserContextService
     {
-        public int GetCurrentUserId();
+        int GetCurrentUserId();
+        bool IsUserLoggedIn();
     }
 }
