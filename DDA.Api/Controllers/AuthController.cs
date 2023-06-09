@@ -23,10 +23,17 @@ namespace DDA.Api.Controllers
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<UserModel>> AuthenticatedUser()
-        {
+        public async Task<ActionResult<bool>> AuthenticatedUser()
+        { 
             var user = await _userRepository.GetUser(this.CurrentUserId);
             return Ok(user);
+        }
+
+        [HttpGet]
+        [Route("IsAuthenticated")]
+        public async Task<ActionResult<bool>> IsAuthenticated()
+        {
+            return HttpContext.User.Identity.IsAuthenticated ? Ok(true) : Ok(false);
         }
 
         [HttpPost]
@@ -42,6 +49,7 @@ namespace DDA.Api.Controllers
         {
             get
             {
+                Console.WriteLine($"!!!!!!!!!!!!!!!!!!!NAME CLAIM {HttpContext.User.Identity!.Name}");
                 var nameClaim = HttpContext.User.Identity!.Name;
                 return int.Parse(nameClaim!);
             }

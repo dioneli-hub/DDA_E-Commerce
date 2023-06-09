@@ -13,17 +13,18 @@ namespace DDA.Api.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
-        private readonly  IUserContextService _userContext;
+        private readonly IUserContextService _userContext;
+
         public UserController(IUserRepository userRepository, IUserContextService userContext)
         {
-            _userRepository = userRepository; 
+            _userRepository = userRepository;
             _userContext = userContext;
         }
 
         [HttpPost]
         [Route("register")]
         [AllowAnonymous]
-        public async Task<ActionResult<UserModel>> RegisterUser([FromBody]RegisterUserModel registerUserModel)
+        public async Task<ActionResult<UserModel>> RegisterUser([FromBody] RegisterUserModel registerUserModel)
         {
             try
             {
@@ -52,10 +53,11 @@ namespace DDA.Api.Controllers
             try
             {
                 var user = await _userRepository.GetUser(userId);
-                if(user is null)
+                if (user is null)
                 {
                     return NoContent();
                 }
+
                 var userModel = user.ConvertToModel();
                 return Ok(userModel);
             }
@@ -71,29 +73,34 @@ namespace DDA.Api.Controllers
         [Route("GetUserCart")]
         public async Task<ActionResult<CartModel>> GetUserCart()
         {
-            var currentUserId = _userContext.GetCurrentUserId();
-            try
-            {
-                var cart = await _userRepository.GetUserCart(currentUserId);
-
-                if (cart is null)
+            int currentUserId = _userContext.GetCurrentUserId();
+            //if (currentUserId is not null)
+            //{
+                try
                 {
-                    return NoContent();
-                } 
+                    var cart = await _userRepository.GetUserCart(currentUserId);
 
-                /* add validation (probably, not in this method but somewhere else...)
-                 if cart is null but user exists - create new cart  for user...
-                 */
+                    if (cart is null)
+                    {
+                        return NoContent();
+                    }
 
-                var cartModel = cart.ConvertToModel();
-                return Ok(cartModel);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
+                    /* add validation (probably, not in this method but somewhere else...)
+                     if cart is null but user exists - create new cart  for user...
+                     */
+
+                    var cartModel = cart.ConvertToModel();
+                    return Ok(cartModel);
+                }
+                catch (Exception e)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
+                }
+            //}
+
+            //return null;
+
+
         }
-
-
     }
 }

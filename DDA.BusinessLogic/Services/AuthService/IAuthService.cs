@@ -11,5 +11,7 @@ namespace DDA.BusinessLogic.Services.AuthService
     public interface IAuthService
     {
         Task<TokenModel> Login(AuthModel authModel);
+        //Task<UserModel> GetAuthenticatedUser();
+        Task<bool> IsAuthenticated();
     }
 }

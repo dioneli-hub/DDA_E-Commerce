@@ -5,6 +5,7 @@ namespace DDA.Api.Extensions
 {
     public class UserContextService : IUserContextService
     {
+       
         private readonly IHttpContextAccessor _contextAccessor;
         public UserContextService(IHttpContextAccessor contextAccessor)
         {
@@ -24,3 +25,4 @@ namespace DDA.Api.Extensions
         }
     }
 }
+

@@ -45,5 +45,63 @@ namespace DDA.BusinessLogic.Services.AuthService
                 throw;
             }
         }
+
+        //public async Task<UserModel> GetAuthenticatedUser()
+        //{
+        //    var response = await _httpClient.GetAsync($"api/Auth");
+
+        //    try
+        //    {
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+        //            {
+        //                return default(UserModel);
+        //            }
+        //            return await response.Content.ReadFromJsonAsync<UserModel>();
+        //        }
+
+        //        else
+        //        {
+        //            Console.WriteLine("Catch AuthService code is not success");
+        //            return null;
+        //            //var message = await response.Content.ReadAsStringAsync();
+        //            //throw new Exception(message);
+        //        }
+        //    }
+
+        //    catch (Exception)
+        //    {
+        //        Console.WriteLine("Catch AuthService.GetAUthUser()");
+        //        return null;
+        //    }
+        //}
+
+        public async Task<bool> IsAuthenticated()
+        {
+            var response = await _httpClient.GetAsync($"api/Auth/IsAuthenticated");
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<bool>();
+                }
+
+                else
+                {
+                    Console.WriteLine("Something went wrong in IsAuthenticated");
+                    Console.WriteLine(await response.Content.ReadFromJsonAsync<bool>());
+                    throw new Exception();
+                }
+            }
+
+            catch (Exception e)
+            {
+                Console.WriteLine("Catch AuthService.IsAuthenticated");
+                throw new Exception(e.Message);
+
+            }
+        }
     }
 }

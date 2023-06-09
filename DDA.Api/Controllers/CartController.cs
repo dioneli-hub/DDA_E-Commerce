@@ -30,31 +30,36 @@ namespace DDA.Api.Controllers
         [Route("GetUsersCartItems")]
         public async Task<ActionResult<IEnumerable<CartItemModel>>> GetUsersCartItems()
         {
-            var currentUserId = _userContextService.GetCurrentUserId();
-            try
-            {
-                var cartItems = await _cartRepository.GetUsersCartItems(currentUserId);
-
-                if (cartItems is null)
+            int currentUserId = _userContextService.GetCurrentUserId();
+            //if (currentUserId != null)
+            //{
+                try
                 {
-                    return NoContent();
+                    var cartItems =  await _cartRepository.GetUsersCartItems(currentUserId);
+
+                    if (cartItems is null)
+                    {
+                        return NoContent();
+                    }
+
+                    var items = await _itemRepository.GetItems();
+
+                    if (items is null)
+                    {
+                        throw new Exception("There are no products in the system.");
+                    }
+
+                    var cartItemsModel = cartItems.ConvertToModel(items);
+
+                    return Ok(cartItemsModel);
                 }
-
-                var items = await _itemRepository.GetItems();
-
-                if (items is null)
+                catch (Exception e)
                 {
-                    throw new Exception("There are no products in the system.");
+                    return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
                 }
+            //}
 
-                var cartItemsModel = cartItems.ConvertToModel(items);
-
-                return Ok(cartItemsModel);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
-            }
+            return null;
         }
 
         [HttpGet("{id}/GetCartItem" , Name = nameof(GetCartItem))]
