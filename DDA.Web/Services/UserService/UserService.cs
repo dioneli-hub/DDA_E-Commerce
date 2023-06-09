@@ -3,7 +3,7 @@ using DDA.BusinessLogic.UserContext;
 using System.Net.Http;
 using System.Net.Http.Json;
 
-namespace DDA.BusinessLogic.Services.UserService
+namespace DDA.Web.Services.UserService
 {
     public class UserService : IUserService
     {
@@ -29,13 +29,13 @@ namespace DDA.BusinessLogic.Services.UserService
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync<RegisterUserModel>("api/User/register", registerUserModel);
+                var response = await _httpClient.PostAsJsonAsync("api/User/register", registerUserModel);
 
                 if (response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode is System.Net.HttpStatusCode.NoContent)
                     {
-                        return default(UserModel);
+                        return default;
                     }
 
                     return await response.Content.ReadFromJsonAsync<UserModel>();

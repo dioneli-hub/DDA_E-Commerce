@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DDA.BusinessLogic.Services.CartService
+namespace DDA.Web.Services.CartService
 {
     public interface ICartService
     {

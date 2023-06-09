@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using DDA.ApiModels;
-using DDA.BusinessLogic.Services.ItemService;
+using DDA.Web.Services.ItemService;
 
-namespace DDA.BusinessLogic.Services.ItemsLocalStorageService
+namespace DDA.Web.Services.ItemsLocalStorageService
 {
     public class ItemsLocalStorageService : IItemsLocalStorageService
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DDA.ApiModels;
 
-namespace DDA.BusinessLogic.Services.ItemsLocalStorageService
+namespace DDA.Web.Services.ItemsLocalStorageService
 {
     public interface IItemsLocalStorageService
     {

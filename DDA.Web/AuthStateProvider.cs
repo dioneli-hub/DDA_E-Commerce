@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text.Json;
 
-namespace DDA.BusinessLogic
+namespace DDA.Web
 {
     public class AuthStateProvider : AuthenticationStateProvider
     {

@@ -1,6 +1,6 @@
 ﻿using DDA.ApiModels;
 
-namespace DDA.BusinessLogic.Services.ItemService
+namespace DDA.Web.Services.ItemService
 {
     public interface IItemService
     {

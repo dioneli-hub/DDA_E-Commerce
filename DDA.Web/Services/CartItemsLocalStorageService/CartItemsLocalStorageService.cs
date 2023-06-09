@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using DDA.ApiModels;
-using DDA.BusinessLogic.Services.AuthService;
-using DDA.BusinessLogic.Services.CartService;
-using DDA.BusinessLogic.UserContext;
+using DDA.Web.Services.AuthService;
+using DDA.Web.Services.CartService;
 
-namespace DDA.BusinessLogic.Services.CartItemsLocalStorageService
+namespace DDA.Web.Services.CartItemsLocalStorageService
 {
     public class CartItemsLocalStorageService : ICartItemsLocalStorageService
     {
@@ -47,7 +41,7 @@ namespace DDA.BusinessLogic.Services.CartItemsLocalStorageService
             if (await _authService.IsAuthenticated())
             {
                 Console.WriteLine("at add collection");
-                
+
                 var cartCollection = await _cartService.GetUsersCartItems();
 
                 if (cartCollection != null)
@@ -58,7 +52,7 @@ namespace DDA.BusinessLogic.Services.CartItemsLocalStorageService
                 return cartCollection;
             }
             return new List<CartItemModel>();
-            
+
         }
     }
 }

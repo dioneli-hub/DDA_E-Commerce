@@ -1,7 +1,7 @@
 ﻿using DDA.ApiModels;
 using System.Net.Http.Json;
 
-namespace DDA.BusinessLogic.Services.ItemService
+namespace DDA.Web.Services.ItemService
 {
     public class ItemService : IItemService
     {
@@ -14,7 +14,7 @@ namespace DDA.BusinessLogic.Services.ItemService
 
         public async Task<IEnumerable<ItemModel>> GetCategories()
         {
-            try 
+            try
             {
                 var response = await _httpClient.GetAsync("api/Item/GetCategories");
                 if (response.IsSuccessStatusCode)
@@ -44,11 +44,11 @@ namespace DDA.BusinessLogic.Services.ItemService
             {
                 var response = await _httpClient.GetAsync($"api/Item/{id}");
 
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
-                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent) 
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
-                        return default(ItemModel);
+                        return default;
                     }
                     return await response.Content.ReadFromJsonAsync<ItemModel>();
                 }
@@ -72,8 +72,8 @@ namespace DDA.BusinessLogic.Services.ItemService
             try
             {
                 var response = await _httpClient.GetAsync("api/Item");
-                
-                if(response.IsSuccessStatusCode) 
+
+                if (response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {

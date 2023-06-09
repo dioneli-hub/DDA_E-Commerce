@@ -1,9 +1,10 @@
 ﻿@using DDA.ApiModels;
-@using DDA.BusinessLogic.Services.CartItemsLocalStorageService
-@using DDA.BusinessLogic.Services.CartService;
-@using DDA.BusinessLogic.Services.ItemService;
-@using DDA.BusinessLogic.Services.ItemsLocalStorageService
-@using DDA.BusinessLogic.Services.UserService;
+@using DDA.Web.Services.CartItemsLocalStorageService
+@using DDA.Web.Services.CartService;
+@using DDA.Web.Services.ItemService;
+@using DDA.Web.Services.ItemsLocalStorageService
+@using DDA.Web.Services.UserService;
+@using DDA.Web.Services.CartItemsLocalStorageService;
 @page "/ItemDetails/{Id:int}"
 
 @if (Item is null && ErrorMessage is null)

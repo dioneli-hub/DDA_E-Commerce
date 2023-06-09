@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DDA.ApiModels;
 
-namespace DDA.BusinessLogic.Services.CartItemsLocalStorageService
+namespace DDA.Web.Services.CartItemsLocalStorageService
 {
     public interface ICartItemsLocalStorageService
     {

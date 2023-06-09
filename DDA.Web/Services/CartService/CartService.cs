@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace DDA.BusinessLogic.Services.CartService
+namespace DDA.Web.Services.CartService
 {
     public class CartService : ICartService
     {
@@ -24,13 +24,13 @@ namespace DDA.BusinessLogic.Services.CartService
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync<AddCartItemModel>("api/Cart", addCartItemModel);
+                var response = await _httpClient.PostAsJsonAsync("api/Cart", addCartItemModel);
 
                 if (response.IsSuccessStatusCode)
                 {
                     if (response.StatusCode is System.Net.HttpStatusCode.NoContent)
                     {
-                        return default(CartItemModel);
+                        return default;
                     }
 
                     return await response.Content.ReadFromJsonAsync<CartItemModel>();
@@ -54,9 +54,9 @@ namespace DDA.BusinessLogic.Services.CartService
             {
                 var response = await _httpClient.GetAsync($"api/Cart/GetUsersCartItems");
 
-                if (response.IsSuccessStatusCode) 
+                if (response.IsSuccessStatusCode)
                 {
-                    if(response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
                         return Enumerable.Empty<CartItemModel>().ToList();
                     }
@@ -86,7 +86,7 @@ namespace DDA.BusinessLogic.Services.CartService
                 {
                     if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
                     {
-                        return default(CartModel);
+                        return default;
                     }
                     return await response.Content.ReadFromJsonAsync<CartModel>();
                 }
@@ -116,7 +116,7 @@ namespace DDA.BusinessLogic.Services.CartService
                 {
                     return await response.Content.ReadFromJsonAsync<CartItemModel>();
                 }
-                return default (CartItemModel);
+                return default;
             }
             catch (Exception e)
             {
@@ -150,7 +150,7 @@ namespace DDA.BusinessLogic.Services.CartService
 
         public void RaiseEventOnShoppingCartChanged(int totalQuantity)
         {
-            if(OnShoppingCartChanged != null) //event has subscribers
+            if (OnShoppingCartChanged != null) //event has subscribers
             {
                 OnShoppingCartChanged.Invoke(totalQuantity); //sending the aapropriate number to all subscribers
 

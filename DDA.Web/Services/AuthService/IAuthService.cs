@@ -1,7 +1,7 @@
 ﻿using DDA.ApiModels;
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
 
-namespace DDA.BusinessLogic.Services.AuthService
+namespace DDA.Web.Services.AuthService
 {
     public interface IAuthService
     {
