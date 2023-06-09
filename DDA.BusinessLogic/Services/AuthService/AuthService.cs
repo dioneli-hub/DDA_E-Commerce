@@ -109,10 +109,5 @@ namespace DDA.BusinessLogic.Services.AuthService
 
             }
         }
-
-        //public Task<TokenModel> ChangePassword(ChangePasswordModel changePasswordModel)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

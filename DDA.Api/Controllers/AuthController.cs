@@ -5,6 +5,7 @@ using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DDA.Api.Controllers
 {
@@ -47,6 +48,17 @@ namespace DDA.Api.Controllers
         {
             var token = await _authManager.Authenticate(model.Email, model.Password);
             return Ok(token);
+        }
+
+        [HttpPost]
+        [Route("change-password")]
+        [Authorize]
+        public async Task<ActionResult<bool>> ChangePassword([FromBody] string newPassword)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            var response = await _userRepository.ChangePassword(int.Parse(userId), newPassword);
+
+            return Ok(response);
         }
 
         public int CurrentUserId

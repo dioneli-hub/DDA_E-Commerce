@@ -81,6 +81,26 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
             return await _dataContext.Users.AnyAsync
                 (x => x.Email == email);
         }
+
+        public async Task<bool> ChangePassword(int userId, string newPassword)
+        {
+            var user = await _dataContext.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new ApplicationException("User not found");
+            }
+
+                var hashModel = _hashManager.Generate(newPassword);
+
+
+
+            user.PasswordHash = Convert.ToBase64String(hashModel.Hash);
+            user.SaltHash = Convert.ToBase64String(hashModel.Salt);
+
+            await _dataContext.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
 

@@ -32,12 +32,6 @@ namespace DDA.BusinessLogic.AuthSecurityManagers
             return _jwtManager.GenerateJwtToken(user.Id);
         }
 
-        //public async Task<bool> ChangePassword(int userId, string newPassword)
-        //{
-        //    var user = await _dataContext.Users.FindAsync(userId);
-        //    Generate(newPassword);
-        //    user.PasswordHash =
-        //        user.SaltHash = salt;
-        //}
+        
     }
 }
