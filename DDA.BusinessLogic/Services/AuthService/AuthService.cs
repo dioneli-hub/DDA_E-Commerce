@@ -5,7 +5,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using DDA.ApiModels;
-using DDA.BusinessLogic.AuthManagers;
+using DDA.BusinessLogic.AuthSecurityManagers.Models;
 
 namespace DDA.BusinessLogic.Services.AuthService
 {
@@ -44,6 +44,12 @@ namespace DDA.BusinessLogic.Services.AuthService
             {
                 throw;
             }
+        }
+
+        public async Task<bool> ChangePassword(ChangePasswordModel changePasswordModel)
+        {
+            var result = await _httpClient.PostAsJsonAsync("api/Auth/change-password", changePasswordModel.Password);
+            return await result.Content.ReadFromJsonAsync<bool>();
         }
 
         //public async Task<UserModel> GetAuthenticatedUser()
@@ -103,5 +109,10 @@ namespace DDA.BusinessLogic.Services.AuthService
 
             }
         }
+
+        //public Task<TokenModel> ChangePassword(ChangePasswordModel changePasswordModel)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

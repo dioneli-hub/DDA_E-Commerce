@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DDA.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230607014656_fffffygygygf")]
-    partial class fffffygygygf
+    [Migration("20230609073917_Initial1")]
+    partial class Initial1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,6 +143,8 @@ namespace DDA.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Items");
 
@@ -406,24 +408,17 @@ namespace DDA.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "string",
-                            Name = "Dastan",
-                            PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
-                            SaltHash = "osWQVLjdW582FSVB6aMwDg=="
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "string1",
-                            Name = "Diana",
-                            PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
-                            SaltHash = "/ZcP5+73VeaG0k1WH6eddw=="
-                        });
+            modelBuilder.Entity("DDA.Domain.Item", b =>
+                {
+                    b.HasOne("DDA.Domain.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 #pragma warning restore 612, 618
         }

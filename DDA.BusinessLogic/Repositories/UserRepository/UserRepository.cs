@@ -1,23 +1,21 @@
 ﻿using DDA.ApiModels;
-using DDA.BusinessLogic.AuthManagers;
+using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
 using DDA.DataAccess;
 using DDA.Domain;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DDA.BusinessLogic.Repositories.UserRepository
 {
     public class UserRepository : IUserRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IHashManager _hashManager;
 
-        public UserRepository(DataContext dataContext)
+        public UserRepository(DataContext dataContext,
+            IHashManager hashManager)
         {
             _dataContext = dataContext;
+            _hashManager = hashManager;
         }
         public async Task<User> GetUser(int userId)
         {
@@ -29,7 +27,7 @@ namespace DDA.BusinessLogic.Repositories.UserRepository
         {
             if (await UserAlreadyRegistered(registerUserModel.Email) == false)
             {
-                var hashModel = HashManager.Generate(registerUserModel.Password);
+                var hashModel = _hashManager.Generate(registerUserModel.Password);
 
                 var user = new User{
                     Name = registerUserModel.Name,

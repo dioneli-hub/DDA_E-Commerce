@@ -1,6 +1,7 @@
 ﻿global using Microsoft.AspNetCore.Components.Authorization;
 using Blazored.LocalStorage;
-using DDA.BusinessLogic.Repositories.AuthRepository;
+using DDA.BusinessLogic.AuthSecurityManagers;
+using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
 using DDA.BusinessLogic.Repositories.CartRepository;
 using DDA.BusinessLogic.Repositories.ItemRepository;
 using DDA.BusinessLogic.Repositories.UserRepository;
@@ -21,8 +22,11 @@ namespace DDA.BusinessLogic
             //Api
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IAuthManager, AuthManager>();
             services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<IJwtManager, JwtManager>();
+            services.AddScoped<IHashManager, HashManager>();
+            services.AddScoped<IPasswordVerifier, PasswordVerifier>();
 
             return services;
         }

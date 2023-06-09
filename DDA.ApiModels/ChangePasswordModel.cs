@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace DDA.ApiModels
 {
-    public class RegisterUserModel
+    public class ChangePasswordModel
     {
-        [Required]
-        public string Name { get; set; }
-        [Required, EmailAddress]
-        public string Email { get; set; }
         [Required, StringLength(100, MinimumLength = 8)]
-        public string Password { get; set; }
+        public string Email { get; set; } = string.Empty;
+        [Compare("Password", ErrorMessage = "The passwords do not match. Please, try again.")] 
+        public string Password { get; set; } = string.Empty;
     }
 }

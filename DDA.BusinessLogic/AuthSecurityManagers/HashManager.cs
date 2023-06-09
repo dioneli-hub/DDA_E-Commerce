@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+﻿using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
+using DDA.BusinessLogic.AuthSecurityManagers.Models;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
 
-namespace DDA.BusinessLogic.AuthManagers
+
+namespace DDA.BusinessLogic.AuthSecurityManagers
 {
-    public static class HashManager
+    public class HashManager : IHashManager
     {
         private const int SaltSize = 16;
         private const int IterationsCount = 100;
         private const int KeySizeInBytes = 32;
 
-        public static HashModel Generate(string password)
+        public HashModel Generate(string password)
         {
             var salt = GenerateSalt(SaltSize);
 
@@ -20,7 +23,7 @@ namespace DDA.BusinessLogic.AuthManagers
             };
         }
 
-        public static byte[] HashPassword(string password, byte[] salt)
+        public byte[] HashPassword(string password, byte[] salt)
         {
             return KeyDerivation.Pbkdf2(password, salt,
                 KeyDerivationPrf.HMACSHA512,

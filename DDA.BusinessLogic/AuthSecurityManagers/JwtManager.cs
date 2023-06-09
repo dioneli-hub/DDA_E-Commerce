@@ -1,13 +1,16 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using DDA.BusinessLogic.AuthSecurityManagers.Models;
+using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
+using Microsoft.IdentityModel.Tokens;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace DDA.BusinessLogic.AuthManagers
+namespace DDA.BusinessLogic.AuthSecurityManagers
 {
-    public static class JwtManager
+    public class JwtManager : IJwtManager
     {
-        public static TokenModel GenerateJwtToken(int userId)
+        public TokenModel GenerateJwtToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var nowUtc = DateTimeOffset.UtcNow;
@@ -23,7 +26,7 @@ namespace DDA.BusinessLogic.AuthManagers
             };
         }
 
-        public static bool IsValidAuthToken(string token)
+        public bool IsValidAuthToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             try
@@ -49,13 +52,14 @@ namespace DDA.BusinessLogic.AuthManagers
             }
         }
 
-        private static SecurityTokenDescriptor BuildSecurityTokenDescriptor(int userId, DateTimeOffset nowUtc, DateTimeOffset expires)
+        private SecurityTokenDescriptor BuildSecurityTokenDescriptor(int userId, DateTimeOffset nowUtc, DateTimeOffset expires)
         {
             var key = Encoding.ASCII.GetBytes("GDxN28S3JvTRNqzGULCZvH9kzQ8qrxdB");
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, userId.ToString()),
             };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Issuer = "DDA.Issuer",

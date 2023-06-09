@@ -1,6 +1,7 @@
-﻿using DDA.ApiModels;
-using DDA.BusinessLogic.AuthManagers;
-using DDA.BusinessLogic.Repositories.AuthRepository;
+﻿using DDA.Api.Extensions;
+using DDA.ApiModels;
+using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
+using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.BusinessLogic.Repositories.UserRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,22 +12,25 @@ namespace DDA.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _authRepository;
+        
         private readonly IUserRepository _userRepository;
+        private readonly IAuthManager _authManager;
 
-        public AuthController(IAuthRepository authRepository,
-            IUserRepository userRepository)
+        public AuthController(
+            IUserRepository userRepository,
+            IAuthManager authManager)
         {
-            _authRepository = authRepository;
             _userRepository = userRepository;
+            _authManager = authManager;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<bool>> AuthenticatedUser()
-        { 
+        public async Task<ActionResult<UserModel>> AuthenticatedUser()
+        {
             var user = await _userRepository.GetUser(this.CurrentUserId);
-            return Ok(user);
+            var userModel = user.ConvertToModel();
+            return Ok(userModel);
         }
 
         [HttpGet]
@@ -41,7 +45,7 @@ namespace DDA.Api.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<TokenModel>> Authenticate(AuthModel model)
         {
-            var token = _authRepository.Authenticate(model.Email, model.Password);
+            var token = await _authManager.Authenticate(model.Email, model.Password);
             return Ok(token);
         }
 

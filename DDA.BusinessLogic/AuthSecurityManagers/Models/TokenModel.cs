@@ -1,4 +1,4 @@
-﻿namespace DDA.BusinessLogic.AuthManagers
+﻿namespace DDA.BusinessLogic.AuthSecurityManagers.Models
 {
     public class TokenModel
     {

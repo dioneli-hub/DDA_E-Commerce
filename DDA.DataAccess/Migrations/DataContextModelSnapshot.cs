@@ -405,24 +405,6 @@ namespace DDA.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "string",
-                            Name = "Dastan",
-                            PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
-                            SaltHash = "osWQVLjdW582FSVB6aMwDg=="
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "string1",
-                            Name = "Diana",
-                            PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
-                            SaltHash = "/ZcP5+73VeaG0k1WH6eddw=="
-                        });
                 });
 
             modelBuilder.Entity("DDA.Domain.Item", b =>
