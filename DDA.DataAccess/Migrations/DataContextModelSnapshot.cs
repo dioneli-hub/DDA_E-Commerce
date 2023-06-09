@@ -35,18 +35,6 @@ namespace DDA.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("DDA.Domain.CartItem", b =>
@@ -91,22 +79,22 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Category1"
+                            Name = "Striped cats"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Category2"
+                            Name = "Colored cats"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Category3"
+                            Name = "Cool cats"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Category4"
+                            Name = "Cool cats"
                         });
                 });
 
@@ -149,197 +137,197 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CategoryId = 1,
-                            Description = "Description1",
+                            CategoryId = 2,
+                            Description = "A gooood old cat.",
                             Image = "/images/cat.jpg",
-                            Name = "Cat1",
+                            Name = "Cat",
                             Price = 100m,
                             Quantity = 100
                         },
                         new
                         {
                             Id = 2,
-                            CategoryId = 1,
-                            Description = "Description2",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat2",
-                            Price = 50m,
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Cool cat",
+                            Price = 10000m,
                             Quantity = 45
                         },
                         new
                         {
                             Id = 3,
-                            CategoryId = 1,
-                            Description = "Description3",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat3",
-                            Price = 20m,
-                            Quantity = 30
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Another cool cat",
+                            Price = 100000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 4,
-                            CategoryId = 1,
-                            Description = "Description4",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat4",
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Another one",
                             Price = 50m,
-                            Quantity = 60
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 5,
-                            CategoryId = 1,
-                            Description = "Description5",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat5",
-                            Price = 30m,
-                            Quantity = 85
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "One more",
+                            Price = 50000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 6,
                             CategoryId = 3,
-                            Description = "Description6",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat6",
-                            Price = 100m,
-                            Quantity = 120
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "The last one",
+                            Price = 50000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Nope, this one is last",
+                            Price = 50000m,
+                            Quantity = 45
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 2,
+                            Description = "A simple grey cat.",
+                            Image = "/images/grey.jpg",
+                            Name = "Grey cat",
+                            Price = 20m,
+                            Quantity = 30
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 1,
+                            Description = "Description4",
+                            Image = "/images/striped.jpg",
+                            Name = "Striped Cat XL",
+                            Price = 50m,
+                            Quantity = 60
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 1,
+                            Description = "Description5",
+                            Image = "/images/striped2.jpg",
+                            Name = "Striped Cat",
+                            Price = 30m,
+                            Quantity = 85
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryId = 3,
+                            Description = "Description6",
+                            Image = "/images/striped_angry.webp",
+                            Name = "Angry Strippey",
+                            Price = 100m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryId = 3,
+                            Description = "Description6",
+                            Image = "/images/striped4.webp",
+                            Name = "Striped cat",
+                            Price = 100m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryId = 2,
+                            Description = "Description6",
+                            Image = "/images/white1.webp",
+                            Name = "Another white",
+                            Price = 100m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryId = 2,
+                            Description = "Description6",
+                            Image = "/images/white2.webp",
+                            Name = "White cat",
+                            Price = 100m,
+                            Quantity = 120
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryId = 1,
                             Description = "Description7",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat7",
+                            Image = "/images/striped4.jpg",
+                            Name = "Striped brother",
                             Price = 40m,
                             Quantity = 200
                         },
                         new
                         {
-                            Id = 8,
-                            CategoryId = 3,
-                            Description = "Description8",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat8",
+                            Id = 16,
+                            CategoryId = 2,
+                            Description = "The Cat With The Boots. Don't forget to buy",
+                            Image = "/images/red.jpg",
+                            Name = "Red Cat",
                             Price = 40m,
                             Quantity = 300
                         },
                         new
                         {
-                            Id = 9,
+                            Id = 17,
                             CategoryId = 3,
                             Description = "Description9",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat9",
+                            Image = "/images/not_cat.webp",
+                            Name = "Usual cat",
                             Price = 600m,
                             Quantity = 20
                         },
                         new
                         {
-                            Id = 10,
-                            CategoryId = 3,
+                            Id = 18,
+                            CategoryId = 2,
                             Description = "Description10",
-                            Image = "/images/cat.jpg",
+                            Image = "/images/siam.jpg",
                             Name = "Cat10",
                             Price = 500m,
                             Quantity = 15
                         },
                         new
                         {
-                            Id = 11,
+                            Id = 19,
                             CategoryId = 3,
                             Description = "Description11",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat11",
+                            Image = "/images/not_cat.webp",
+                            Name = "Cat The Imposter",
                             Price = 100m,
-                            Quantity = 60
-                        },
-                        new
-                        {
-                            Id = 12,
-                            CategoryId = 2,
-                            Description = "Description12",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat12",
-                            Price = 50m,
-                            Quantity = 212
-                        },
-                        new
-                        {
-                            Id = 13,
-                            CategoryId = 2,
-                            Description = "Description13",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat13",
-                            Price = 50m,
-                            Quantity = 112
-                        },
-                        new
-                        {
-                            Id = 14,
-                            CategoryId = 2,
-                            Description = "Description14",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat14",
-                            Price = 70m,
-                            Quantity = 90
-                        },
-                        new
-                        {
-                            Id = 15,
-                            CategoryId = 2,
-                            Description = "Description15",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat15",
-                            Price = 120m,
-                            Quantity = 95
-                        },
-                        new
-                        {
-                            Id = 16,
-                            CategoryId = 2,
-                            Description = "Description16",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat16",
-                            Price = 15m,
-                            Quantity = 100
-                        },
-                        new
-                        {
-                            Id = 17,
-                            CategoryId = 2,
-                            Description = "Description17",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat17",
-                            Price = 20m,
-                            Quantity = 73
-                        },
-                        new
-                        {
-                            Id = 18,
-                            CategoryId = 4,
-                            Description = "Description18",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat18",
-                            Price = 100m,
-                            Quantity = 50
-                        },
-                        new
-                        {
-                            Id = 19,
-                            CategoryId = 4,
-                            Description = "Description19",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat19",
-                            Price = 150m,
                             Quantity = 60
                         },
                         new
                         {
                             Id = 20,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Description20",
                             Image = "/images/cat.jpg",
                             Name = "Cat20",
@@ -349,7 +337,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 21,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Description21",
                             Image = "/images/cat.jpg",
                             Name = "Cat21",
@@ -359,7 +347,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 22,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Description22",
                             Image = "/images/cat.jpg",
                             Name = "Cat22",
@@ -369,7 +357,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 23,
-                            CategoryId = 4,
+                            CategoryId = 2,
                             Description = "Description23",
                             Image = "/images/cat.jpg",
                             Name = "Cat23",
