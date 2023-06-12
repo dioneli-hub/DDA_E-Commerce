@@ -1,9 +1,8 @@
 ﻿using DDA.Api.Extensions;
 using DDA.ApiModels;
 using DDA.BusinessLogic.Repositories.ItemRepository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
+
 
 namespace DDA.Api.Controllers
 {

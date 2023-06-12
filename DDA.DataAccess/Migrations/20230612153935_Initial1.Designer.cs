@@ -2,38 +2,37 @@
 using DDA.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace DDA.DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230609140858_First")]
-    partial class First
+    [Migration("20230612153935_Initial1")]
+    partial class Initial1
     {
-        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("DDA.Domain.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -44,18 +43,18 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CartId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -66,13 +65,13 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -97,7 +96,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 4,
-                            Name = "Cool cats"
+                            Name = "Similar cats"
                         });
                 });
 
@@ -105,30 +104,30 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -262,7 +261,7 @@ namespace DDA.DataAccess.Migrations
                             Id = 13,
                             CategoryId = 2,
                             Description = "Description6",
-                            Image = "/images/white1.webp",
+                            Image = "/images/white.webp",
                             Name = "Another white",
                             Price = 100m,
                             Quantity = 120
@@ -311,9 +310,9 @@ namespace DDA.DataAccess.Migrations
                         {
                             Id = 18,
                             CategoryId = 2,
-                            Description = "Description10",
+                            Description = "Thinks he's better than YOU.",
                             Image = "/images/siam.jpg",
-                            Name = "Cat10",
+                            Name = "Good-looking cat",
                             Price = 500m,
                             Quantity = 15
                         },
@@ -321,7 +320,7 @@ namespace DDA.DataAccess.Migrations
                         {
                             Id = 19,
                             CategoryId = 3,
-                            Description = "Description11",
+                            Description = "Pretends to be a cat",
                             Image = "/images/not_cat.webp",
                             Name = "Cat The Imposter",
                             Price = 100m,
@@ -330,7 +329,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 20,
-                            CategoryId = 2,
+                            CategoryId = 4,
                             Description = "Description20",
                             Image = "/images/cat.jpg",
                             Name = "Cat20",
@@ -340,7 +339,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 21,
-                            CategoryId = 2,
+                            CategoryId = 4,
                             Description = "Description21",
                             Image = "/images/cat.jpg",
                             Name = "Cat21",
@@ -350,7 +349,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 22,
-                            CategoryId = 2,
+                            CategoryId = 4,
                             Description = "Description22",
                             Image = "/images/cat.jpg",
                             Name = "Cat22",
@@ -360,7 +359,7 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 23,
-                            CategoryId = 2,
+                            CategoryId = 4,
                             Description = "Description23",
                             Image = "/images/cat.jpg",
                             Name = "Cat23",
@@ -373,25 +372,25 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("SaltHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

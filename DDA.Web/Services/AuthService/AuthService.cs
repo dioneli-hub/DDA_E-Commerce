@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
-using Azure.Core;
+
 using DDA.ApiModels;
 using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.Domain;

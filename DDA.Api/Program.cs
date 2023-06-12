@@ -13,9 +13,15 @@ using DDA.Api.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 //Database
+//builder.Services.AddDbContext<DataContext>(options =>
+//options.UseSqlServer(builder.Configuration.GetConnectionString("DDAConnection"))
+//);
+
 builder.Services.AddDbContext<DataContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DDAConnection"))
-);
+options.UseNpgsql(builder.Configuration.GetConnectionString("DDAConnection")));
+
+
+
 //Microsoft.NET.Sdk.Web
 //BLL dependencies
 builder.Services.AddApiBusinessLogicDependencies()

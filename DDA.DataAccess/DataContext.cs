@@ -5,6 +5,8 @@ namespace DDA.DataAccess
 {
     public class DataContext : DbContext
     {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseNpgsql("Host=db.anzjqbnvmrnsjgzhjqpb.supabase.co;Database=postgres;Username=postgres;Password=DastanDiana@dele");
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
             
