@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-using DDA.ApiModels;
+﻿using DDA.ApiModels;
+using DDA.BusinessLogic.UserContext;
 using DDA.DataAccess;
 using DDA.Domain;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +9,12 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
     public class CartRepository : ICartRepository
     {
         private readonly DataContext _dataContext;
+        private readonly IUserContextService _userContextService;
 
-        public CartRepository(DataContext dataContext)
+        public CartRepository(DataContext dataContext, IUserContextService userContextService)
         {
             _dataContext = dataContext;
+            _userContextService = userContextService;
         }
 
         private async Task<bool> CartItemExists(int cartId, int itemId)
@@ -28,12 +25,18 @@ namespace DDA.BusinessLogic.Repositories.CartRepository
         {
             if (await CartItemExists(addCartItemModel.CartId, addCartItemModel.ItemId) is false)
             {
+                var currentUserId = _userContextService.GetCurrentUserId();
+                var currentUserCart = await _dataContext.Carts
+                                        .Where(x => x.UserId == currentUserId)
+                                        .FirstOrDefaultAsync();
+                                            
+
                 var cartItem = await (from item in _dataContext.Items
                     where item.Id == addCartItemModel.ItemId
                     select new CartItem()
                     {
-                        //CartId = 1,//hard-coded
-                        CartId = addCartItemModel.CartId,
+                        
+                        CartId = currentUserCart.Id,
                         ItemId = item.Id,
                         Quantity = addCartItemModel.Quantity,
                     }).SingleOrDefaultAsync();

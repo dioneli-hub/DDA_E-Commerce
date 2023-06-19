@@ -22,4 +22,8 @@
     <ProjectReference Include="..\DDA.Web\DDA.Web.csproj" />
   </ItemGroup>
 
+<PropertyGroup>
+  <RunAOTCompilation>true</RunAOTCompilation>
+</PropertyGroup>
+
 </Project>
