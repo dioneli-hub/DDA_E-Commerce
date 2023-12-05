@@ -6,7 +6,7 @@
 
 @using DDA.ApiModels
 @using Blazored.LocalStorage
-@using DDA.BusinessLogic.Services.AuthService
+@using DDA.Web.Services.AuthService
 
 <PageTitleLogin></PageTitleLogin>
 <h3>Login</h3>
@@ -36,9 +36,17 @@
     private async Task HandleLogin()
     {
         var result = await AuthService.Login(user);
-        Console.WriteLine($"result is: {result}");
-        await LocalStorageService.SetItemAsync("token", result.Token);
-        await AuthStateProvider.GetAuthenticationStateAsync();
-        NavigationManager.NavigateTo("");
+        if (result.Success)
+        {
+            errorMessage = string.Empty;
+
+            await LocalStorageService.SetItemAsync("token", result.Data);
+            await AuthStateProvider.GetAuthenticationStateAsync();
+            NavigationManager.NavigateTo("");
+        }
+        else
+        {
+            errorMessage = result.Message;
+        }
     }
 }

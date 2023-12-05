@@ -22,5 +22,11 @@ namespace DDA.Api.Extensions
 
             throw new ApplicationException("User is not authenticated!");
         }
+
+        public bool IsUserLoggedIn()
+        {
+            return UserIdentity!.IsAuthenticated;
+        }
     }
 }
+

@@ -2,8 +2,8 @@
 using DDA.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -16,55 +16,43 @@ namespace DDA.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("ProductVersion", "6.0.16")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("DDA.Domain.Cart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("UserId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
                     b.ToTable("Carts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            UserId = 2
-                        });
                 });
 
             modelBuilder.Entity("DDA.Domain.CartItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CartId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("ItemId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -75,13 +63,13 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -91,22 +79,22 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Category1"
+                            Name = "Striped cats"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Category2"
+                            Name = "Colored cats"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Category3"
+                            Name = "Cool cats"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Category4"
+                            Name = "Similar cats"
                         });
                 });
 
@@ -114,30 +102,30 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("numeric(18,2)");
 
                     b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -149,191 +137,191 @@ namespace DDA.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CategoryId = 1,
-                            Description = "Description1",
+                            CategoryId = 2,
+                            Description = "A gooood old cat.",
                             Image = "/images/cat.jpg",
-                            Name = "Cat1",
+                            Name = "Cat",
                             Price = 100m,
                             Quantity = 100
                         },
                         new
                         {
                             Id = 2,
-                            CategoryId = 1,
-                            Description = "Description2",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat2",
-                            Price = 50m,
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Cool cat",
+                            Price = 10000m,
                             Quantity = 45
                         },
                         new
                         {
                             Id = 3,
-                            CategoryId = 1,
-                            Description = "Description3",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat3",
-                            Price = 20m,
-                            Quantity = 30
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Another cool cat",
+                            Price = 100000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 4,
-                            CategoryId = 1,
-                            Description = "Description4",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat4",
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Another one",
                             Price = 50m,
-                            Quantity = 60
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 5,
-                            CategoryId = 1,
-                            Description = "Description5",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat5",
-                            Price = 30m,
-                            Quantity = 85
+                            CategoryId = 3,
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "One more",
+                            Price = 50000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 6,
                             CategoryId = 3,
-                            Description = "Description6",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat6",
-                            Price = 100m,
-                            Quantity = 120
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "The last one",
+                            Price = 50000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 7,
                             CategoryId = 3,
-                            Description = "Description7",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat7",
-                            Price = 40m,
-                            Quantity = 200
+                            Description = "COOOL CAT",
+                            Image = "/images/cool.jpg",
+                            Name = "Nope, this one is last",
+                            Price = 50000m,
+                            Quantity = 45
                         },
                         new
                         {
                             Id = 8,
-                            CategoryId = 3,
-                            Description = "Description8",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat8",
-                            Price = 40m,
-                            Quantity = 300
+                            CategoryId = 2,
+                            Description = "A simple grey cat.",
+                            Image = "/images/grey.jpg",
+                            Name = "Grey cat",
+                            Price = 20m,
+                            Quantity = 30
                         },
                         new
                         {
                             Id = 9,
-                            CategoryId = 3,
-                            Description = "Description9",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat9",
-                            Price = 600m,
-                            Quantity = 20
+                            CategoryId = 1,
+                            Description = "Description4",
+                            Image = "/images/striped.jpg",
+                            Name = "Striped Cat XL",
+                            Price = 50m,
+                            Quantity = 60
                         },
                         new
                         {
                             Id = 10,
-                            CategoryId = 3,
-                            Description = "Description10",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat10",
-                            Price = 500m,
-                            Quantity = 15
+                            CategoryId = 1,
+                            Description = "Description5",
+                            Image = "/images/striped2.jpg",
+                            Name = "Striped Cat",
+                            Price = 30m,
+                            Quantity = 85
                         },
                         new
                         {
                             Id = 11,
                             CategoryId = 3,
-                            Description = "Description11",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat11",
+                            Description = "Description6",
+                            Image = "/images/striped_angry.webp",
+                            Name = "Angry Strippey",
                             Price = 100m,
-                            Quantity = 60
+                            Quantity = 120
                         },
                         new
                         {
                             Id = 12,
-                            CategoryId = 2,
-                            Description = "Description12",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat12",
-                            Price = 50m,
-                            Quantity = 212
+                            CategoryId = 3,
+                            Description = "Description6",
+                            Image = "/images/striped4.webp",
+                            Name = "Striped cat",
+                            Price = 100m,
+                            Quantity = 120
                         },
                         new
                         {
                             Id = 13,
                             CategoryId = 2,
-                            Description = "Description13",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat13",
-                            Price = 50m,
-                            Quantity = 112
+                            Description = "Description6",
+                            Image = "/images/white.webp",
+                            Name = "Another white",
+                            Price = 100m,
+                            Quantity = 120
                         },
                         new
                         {
                             Id = 14,
                             CategoryId = 2,
-                            Description = "Description14",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat14",
-                            Price = 70m,
-                            Quantity = 90
+                            Description = "Description6",
+                            Image = "/images/white2.webp",
+                            Name = "White cat",
+                            Price = 100m,
+                            Quantity = 120
                         },
                         new
                         {
                             Id = 15,
-                            CategoryId = 2,
-                            Description = "Description15",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat15",
-                            Price = 120m,
-                            Quantity = 95
+                            CategoryId = 1,
+                            Description = "Description7",
+                            Image = "/images/striped4.jpg",
+                            Name = "Striped brother",
+                            Price = 40m,
+                            Quantity = 200
                         },
                         new
                         {
                             Id = 16,
                             CategoryId = 2,
-                            Description = "Description16",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat16",
-                            Price = 15m,
-                            Quantity = 100
+                            Description = "The Cat With The Boots. Don't forget to buy",
+                            Image = "/images/red.jpg",
+                            Name = "Red Cat",
+                            Price = 40m,
+                            Quantity = 300
                         },
                         new
                         {
                             Id = 17,
-                            CategoryId = 2,
-                            Description = "Description17",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat17",
-                            Price = 20m,
-                            Quantity = 73
+                            CategoryId = 3,
+                            Description = "Description9",
+                            Image = "/images/not_cat.webp",
+                            Name = "Usual cat",
+                            Price = 600m,
+                            Quantity = 20
                         },
                         new
                         {
                             Id = 18,
-                            CategoryId = 4,
-                            Description = "Description18",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat18",
-                            Price = 100m,
-                            Quantity = 50
+                            CategoryId = 2,
+                            Description = "Thinks he's better than YOU.",
+                            Image = "/images/siam.jpg",
+                            Name = "Good-looking cat",
+                            Price = 500m,
+                            Quantity = 15
                         },
                         new
                         {
                             Id = 19,
-                            CategoryId = 4,
-                            Description = "Description19",
-                            Image = "/images/cat.jpg",
-                            Name = "Cat19",
-                            Price = 150m,
+                            CategoryId = 3,
+                            Description = "Pretends to be a cat",
+                            Image = "/images/not_cat.webp",
+                            Name = "Cat The Imposter",
+                            Price = 100m,
                             Quantity = 60
                         },
                         new
@@ -382,47 +370,29 @@ namespace DDA.DataAccess.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("integer");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.Property<string>("SaltHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "string",
-                            Name = "Dastan",
-                            PasswordHash = "vtqMBmkyjYWTiUQgoQA/f1f4dKQ/tEOsfRYVp8bhXOI=",
-                            SaltHash = "osWQVLjdW582FSVB6aMwDg=="
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "string1",
-                            Name = "Diana",
-                            PasswordHash = "Iq+pXfcm8IoCLOFsDBW1NsTo63R86piURQ/yJrWPXzU=",
-                            SaltHash = "/ZcP5+73VeaG0k1WH6eddw=="
-                        });
                 });
 
             modelBuilder.Entity("DDA.Domain.Item", b =>

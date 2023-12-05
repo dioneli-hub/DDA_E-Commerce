@@ -1,9 +1,14 @@
-﻿using DDA.ApiModels;
-using DDA.BusinessLogic.AuthManagers;
-using DDA.BusinessLogic.Repositories.AuthRepository;
+﻿
+using DDA.Api.Extensions;
+using DDA.ApiModels;
+using DDA.BusinessLogic.AuthSecurityManagers.Contracts;
+using DDA.BusinessLogic.AuthSecurityManagers.Models;
 using DDA.BusinessLogic.Repositories.UserRepository;
+using DDA.BusinessLogic.UserContext;
+using DDA.Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DDA.Api.Controllers
 {
@@ -11,40 +16,64 @@ namespace DDA.Api.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthRepository _authRepository;
+        
         private readonly IUserRepository _userRepository;
+        private readonly IAuthManager _authManager;
+        private readonly IUserContextService _userContextService;
 
-        public AuthController(IAuthRepository authRepository,
-            IUserRepository userRepository)
+        public AuthController(
+            IUserRepository userRepository,
+            IAuthManager authManager,
+            IUserContextService userContextService)
         {
-            _authRepository = authRepository;
             _userRepository = userRepository;
+            _authManager = authManager;
+            _userContextService = userContextService;
         }
 
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<UserModel>> AuthenticatedUser()
         {
-            var user = await _userRepository.GetUser(this.CurrentUserId);
-            return Ok(user);
+            var user = await _userRepository.GetUser(_userContextService.GetCurrentUserId());
+            var userModel = user.ConvertToModel();
+            return Ok(userModel);
+        }
+
+        [HttpGet]
+        [Route("IsAuthenticated")]
+        public async Task<ActionResult<bool>> IsAuthenticated()
+        {
+            return _userContextService.IsUserLoggedIn() ? Ok(true) : Ok(false);
         }
 
         [HttpPost]
         [Route("login")]
         [AllowAnonymous]
-        public async Task<ActionResult<TokenModel>> Authenticate(AuthModel model)
+        public async Task<ActionResult<string>> Authenticate(AuthModel model)
         {
-            var token = _authRepository.Authenticate(model.Email, model.Password);
-            return Ok(token);
+            var response = await _authManager.Authenticate(model.Email, model.Password);
+            if (!response.Success)
+            {
+                return BadRequest(response);
+            }
+            return Ok(response);
         }
 
-        public int CurrentUserId
+        [HttpPost]
+        [Route("change-password")]
+        [Authorize]
+        public async Task<ActionResult<ServiceResponse<bool>>> ChangePassword([FromBody] string newPassword)
         {
-            get
+            var userId = User.FindFirstValue(ClaimTypes.Name);
+            var response = await _userRepository.ChangePassword(int.Parse(userId), newPassword);
+
+            if(!response.Success)
             {
-                var nameClaim = HttpContext.User.Identity!.Name;
-                return int.Parse(nameClaim!);
+                return BadRequest(response);
             }
+            return Ok(response);
         }
+
     }
 }

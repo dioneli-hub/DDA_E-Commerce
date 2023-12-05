@@ -20,7 +20,10 @@ a:hover .item-img {
 
 .item-img {
     transition: 0.5s ease-in-out;
+    height: 180px;
+    object-fit: cover;
 }
+
 
 .item {
     flex: 0 0 25%; /* displaying 4 items per row*/
