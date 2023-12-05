@@ -1,0 +1,107 @@
+﻿@page "/"
+@using DDA.ApiModels;
+@using DDA.Web.Services.CartItemsLocalStorageService
+@using DDA.Web.Services.CartService;
+@using DDA.Web.Services.ItemService;
+@using DDA.Web.Services.ItemsLocalStorageService
+@using DDA.Web.Services.UserService;
+
+@if (Items is null && ErrorMessage is null)
+{
+    <Loading></Loading>
+}
+else if (ErrorMessage is not null)
+{
+    <DisplayErrorMessage ErrorMessage ="@ErrorMessage"></DisplayErrorMessage>
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+
+    var itemCount = Items.Count();
+
+    @if (itemCount > 0)
+    {
+        
+        @*var itemRowList = new List<ItemModel>();
+
+        @for (int i = 0; i < itemCount; i++)
+        {
+            itemRowList = Items
+            .Skip(i * itemsPerRow)
+            .Take(itemsPerRow)
+            .ToList();*@
+
+        @foreach (var itemGroup in GetItemsByCategory())
+            {
+                <h4>@GetCategoryName(itemGroup)</h4>
+
+                <div class="row mt-3 items-container">
+                    <DisplayItems Items="@itemGroup"></DisplayItems>
+                </div>
+                <hr class="mb-3"/>
+            }
+        //}
+    }
+}
+
+@code {
+    [Inject]
+    public IItemService ItemService { get; set; }
+
+    [Inject]
+    public ICartService CartService { get; set; }
+
+    [Inject]
+    public IItemsLocalStorageService ItemsLocalStorageService { get; set; }
+
+    [Inject]
+    public ICartItemsLocalStorageService CarttemsLocalStorageService { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    public IEnumerable<ItemModel> Items { get; set; }
+
+    public string ErrorMessage { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ClearLocalStorage();
+
+            Items = await ItemsLocalStorageService.GetCollection();
+
+            var cartItems = await CarttemsLocalStorageService.GetCollection();
+            var totalQuantity = cartItems.Sum(i => i.Quantity);
+
+            CartService.RaiseEventOnShoppingCartChanged(totalQuantity);
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+        }
+    }
+
+    protected IOrderedEnumerable<IGrouping<int, ItemModel>> GetItemsByCategory()
+    {
+        return from item in Items
+               group item by item.CategoryId into itemsByCatGroup
+               orderby itemsByCatGroup.Key
+               select itemsByCatGroup;
+
+    }
+
+    protected string GetCategoryName(IGrouping<int, ItemModel> itemGroup)
+    {
+        return itemGroup
+                .FirstOrDefault(g => g.CategoryId == itemGroup.Key)
+                .CategoryName;
+    }
+
+    private async Task ClearLocalStorage()
+    {
+        await ItemsLocalStorageService.DeleteCollection();
+        await CarttemsLocalStorageService.DeleteCollection();
+    }
+}

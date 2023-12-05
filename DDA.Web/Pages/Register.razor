@@ -1,0 +1,63 @@
+﻿@page "/Register"
+@using DDA.ApiModels;
+@using DDA.Web.Services.UserService;
+
+@inject IUserService userService
+
+<PageTitle>Register</PageTitle>
+
+<h3>Register</h3>
+
+<EditForm Model="user" OnValidSubmit="HandleRegistration">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="name">Name</label>
+        <InputText id="name" @bind-Value="user.Name" class="form-control" />
+        <ValidationMessage For="@(() => user.Name)" />
+    </div>
+    <div class="mb-3">
+        <label for="email">Email</label>
+        <InputText id="email" @bind-Value="user.Email" class="form-control" />
+        <ValidationMessage For="@(() => user.Email)" />
+    </div>
+    <div class="mb-3">
+        <label for="password">Password</label>
+        <InputText id="password" @bind-Value="user.Password" class="form-control" type="password" />
+        <ValidationMessage For="@(() => user.Password)" />
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Register</button>
+    <div class="@messageCssClass">
+        <span>@message</span>
+    </div>
+</EditForm>
+
+@code {
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    RegisterUserModel user = new RegisterUserModel();
+
+    string message = string.Empty;
+    string messageCssClass = string.Empty;
+
+    async Task HandleRegistration()
+    {
+        try
+        {
+            var result = await userService.Register(user); // anyway here we get a default model, which does not let us validate properly
+            NavigationManager.NavigateTo("/");
+
+            //messageCssClass = "text-success";
+            //message = "User registered!";
+            //NavigationManager.NavigateTo("/Cart");
+        }
+        catch (Exception)
+        {
+            //messageCssClass = "text-danger";
+            //message = "Something went wrong...";
+        }
+            
+    }
+}

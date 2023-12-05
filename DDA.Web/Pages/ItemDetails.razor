@@ -1,0 +1,115 @@
+﻿@using DDA.ApiModels;
+@using DDA.Web.Services.CartItemsLocalStorageService
+@using DDA.Web.Services.CartService;
+@using DDA.Web.Services.ItemService;
+@using DDA.Web.Services.ItemsLocalStorageService
+@using DDA.Web.Services.UserService;
+@using DDA.Web.Services.CartItemsLocalStorageService;
+@page "/ItemDetails/{Id:int}"
+
+@if (Item is null && ErrorMessage is null)
+{
+    <Loading></Loading>
+}
+else if (ErrorMessage is not null)
+{
+    <DisplayErrorMessage ErrorMessage="@ErrorMessage"></DisplayErrorMessage>
+} 
+else
+{
+    <h3 class=mb-5>Item Details</h3>
+    <div class="row">
+    <div class="col-md-6 mb-4">
+        <img class="img-fluid" src="@Item.Image">
+    </div>
+    <div class="col-md-6">
+        <h3>@Item.Name</h3>
+        <p class="mb-4">@Item.Description</p>
+        <p class="mb-4">
+            <b>
+                @Item.Price.ToString("C")&nbsp;(@Item.Quantity items in stock)
+            </b>
+        </p>
+        <div>
+            <AuthorizeView>
+                <Authorized>
+                <button class="btn btn-success"
+                        @onclick="() => (AddItemToCart_Click(new AddCartItemModel { CartId = CartService.GetUserCart().Id, ItemId = Item.Id, Quantity = 1 }))"><b>Add to Cart</b></button>
+                </Authorized>
+                </AuthorizeView>
+            </div>
+    </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    [Inject]
+    public IItemService ItemService { get; set; }
+
+    [Inject]
+    public IUserService UserService { get; set; }
+
+    [Inject]
+    public ICartService CartService { get; set; }
+
+    [Inject]
+    public IItemsLocalStorageService ItemsLocalStorageService { get; set; }
+
+    [Inject]
+    public ICartItemsLocalStorageService CartItemsLocalStorageService { get; set; }
+
+    private List<CartItemModel> CartItems { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    public ItemModel Item { get; set; }
+
+    public string ErrorMessage { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            CartItems = await CartItemsLocalStorageService.GetCollection();
+            Item = await GetItemById(Id);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    protected async Task AddItemToCart_Click(AddCartItemModel addCartItemModel)
+    {
+        try
+        {
+            var cartItemModel = await CartService.AddCartItem(addCartItemModel);
+
+            if (cartItemModel != null)
+            {
+                CartItems.Add(cartItemModel);
+                await CartItemsLocalStorageService.SaveCollection(CartItems);
+            }
+
+            NavigationManager.NavigateTo("/Cart");
+        }
+        catch (Exception)
+        {
+            //log later
+        }
+    }
+
+    private async Task<ItemModel> GetItemById(int id)
+    {
+        var itemModels = await ItemsLocalStorageService.GetCollection();
+        if (itemModels != null)
+        {
+            return itemModels.SingleOrDefault(i => i.Id == id);
+        }
+        return null;
+    }
+}

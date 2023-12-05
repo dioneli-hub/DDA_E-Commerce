@@ -1,0 +1,30 @@
+﻿﻿
+a {
+    text-decoration: none;
+}
+
+a:hover .item-card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.item-card {
+    transition: box-shadow 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+a:hover .item-img {
+    transform: scale(1.07);
+    transition: 0.5s ease-in-out;
+}
+
+.item-img {
+    transition: 0.5s ease-in-out;
+    height: 180px;
+    object-fit: cover;
+}
+
+
+.item {
+    flex: 0 0 25%; /* displaying 4 items per row*/
+}
